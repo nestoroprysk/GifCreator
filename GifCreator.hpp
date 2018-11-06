@@ -14,10 +14,14 @@ public:
 	GifCreator(std::uint32_t width, std::uint32_t height,
 		std::uint32_t delay = defaultDelay, const char* fileName = defaultFileName);
 	void drawBlackAndWhiteFrames();
+	void drawMovingDot();
 	~GifCreator();
 
 private:
 	GifCreator() = delete;
+
+private:
+	void makeFrame();
 
 private:
 	std::unique_ptr<Image> image_;

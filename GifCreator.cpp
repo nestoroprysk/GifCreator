@@ -17,14 +17,32 @@ void GifCreator::drawBlackAndWhiteFrames()
 {
 	while (!image_->isComplete())
 		image_->fillNextPixel(BasicColors::black);
-	GifWriteFrame(writer_.get(), image_->get(), width_, height_, delay_);
+	makeFrame();
 	image_->flush();
 	while (!image_->isComplete())
 		image_->fillNextPixel(BasicColors::white);
-	GifWriteFrame(writer_.get(), image_->get(), width_, height_, delay_);
+	makeFrame();
+}
+
+void GifCreator::drawMovingDot()
+{
+	for (std::size_t i = 0; i < width_ * height_; ++i){
+		image_->flush();
+		for (std::size_t j = 0; j < i; ++j)
+			image_->fillNextPixel(BasicColors::black);
+		image_->fillNextPixel(BasicColors::white);
+		while (!image_->isComplete())
+			image_->fillNextPixel(BasicColors::black);
+		makeFrame();
+	}
 }
 
 GifCreator::~GifCreator()
 {
 	GifEnd(writer_.get());
+}
+
+void GifCreator::makeFrame()
+{
+	GifWriteFrame(writer_.get(), image_->get(), width_, height_, delay_);
 }
