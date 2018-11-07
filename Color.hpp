@@ -1,4 +1,5 @@
 #pragma once
+#include <vector>
 
 struct Color
 {
@@ -22,3 +23,5 @@ public:
 	static constexpr Color green{min, max};
 	static constexpr Color blue{min, min, max};
 };
+
+using ColorMap = std::vector<std::vector<Color>>;
