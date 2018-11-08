@@ -1,7 +1,9 @@
 #pragma once
 #include <memory>
-#include <vector>
+#include <unordered_map>
+#include <string>
 #include "Color.hpp"
+#include "IMovable.hpp"
 
 class Image;
 struct GifWriter;
@@ -19,7 +21,8 @@ private:
 public:
 	GifCreator(std::uint32_t width, std::uint32_t height,
 		std::uint32_t delay = defaultDelay, const char* fileName = defaultFileName);
-	void registerObject(IDrawableUP);
+	void registerObject(std::string uniqueName, IDrawableUP);
+	template <typename T> void changeObject(std::string name, void (T::*)());
 	void makeFrame();
 	~GifCreator();
 
@@ -36,6 +39,15 @@ private:
 	std::uint32_t height_;
 	std::uint32_t delay_;
 	std::size_t imageCount_;
-	std::vector<IDrawableUP> storage_;
-	ColorMap map_;
+	std::unordered_map<std::string, IDrawableUP> storage_;
+	ColorMap pixelMapper_;
 };
+
+template <typename T>
+void GifCreator::changeObject(std::string name, void (T::*f)())
+{
+	if (!f) throw std::invalid_argument("Invalid functor");
+	const auto o = dynamic_cast<T*>(storage_.at(name).get());
+	if (!o) throw std::logic_error("Cannot convert object with the name " + name + " to " + typeid(T).name());
+	(o->*f)();
+}
