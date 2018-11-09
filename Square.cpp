@@ -7,7 +7,7 @@ void Square::draw(ColorMap& m, std::size_t imageCount) const
 		computation(m, imageCount);
 	lazyComputations_.clear();
 	for (const auto& pixel : body_)
-		m[pixel.y % m.size()][(pixel.x + imageCount) % m[0].size()] = pixel.c;
+		m[pixel.y % m.size()][(pixel.x) % m[0].size()] = pixel.c;
 }
 
 void Square::gotoCenter()
@@ -61,6 +61,7 @@ void Square::zoomIn()
 			addIfUnique(newPixels, Pixel{pixel.x, pixel.y - 1, pixel.c});
 			addIfUnique(newPixels, Pixel{pixel.x + 1, pixel.y - 1, pixel.c});
 		}
+		body_.insert(std::end(body_), std::begin(newPixels), std::end(newPixels));
 	};
 	lazyComputations_.push_back(c);
 }
