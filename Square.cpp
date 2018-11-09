@@ -73,6 +73,6 @@ void Square::zoomOut()
 
 void Square::addIfUnique(std::vector<Pixel>& dest, Pixel const& v)
 {
-	if (std::find(body_.cbegin(), body_.cend(), v) != body_.end())
+	if (std::find(body_.cbegin(), body_.cend(), v) == body_.end())
 		dest.push_back(v);
 }
