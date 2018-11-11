@@ -8,7 +8,7 @@ Image::Image(std::uint32_t width, std::uint32_t height)
 	, pixelsFilled_(0)
 	{}
 
-void Image::fillNextPixel(Color const& c)
+void Image::fillNextPixel(const Color& c)
 {
 	if (isComplete())
 		throw std::runtime_error("fillNextPixel on complete image.");

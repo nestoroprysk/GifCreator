@@ -6,73 +6,84 @@ void Square::draw(ColorMap& m, std::size_t imageCount) const
 	for (const auto& computation : lazyComputations_)
 		computation(m, imageCount);
 	lazyComputations_.clear();
-	for (const auto& pixel : body_)
-		m[pixel.y % m.size()][(pixel.x) % m[0].size()] = pixel.c;
+	for (std::size_t i = 0; i < sideLen_; ++i)
+		for (std::size_t j = 0; j < sideLen_; ++j)
+			if (topLeft_.y + i < m.size() && topLeft_.x + j < m[0].size())
+				m[topLeft_.y + i][topLeft_.x + j] = topLeft_.c;
 }
 
 void Square::gotoCenter()
 {
-	const auto c = [this](ColorMap& m, std::size_t imageCount){
-		const auto minY = std::min_element(body_.cbegin(), body_.cend(),
-			[](const auto& a, const auto& b) { return a.y < b.y; });
-		const auto minX = std::min_element(body_.cbegin(), body_.cend(),
-			[](const auto& a, const auto& b) { return a.x < b.x; });
-		for (auto& pixel : body_){
-			pixel.y -= minY->y;
-			pixel.y += m.size() / 2;
-			pixel.x -= minX->x;
-			pixel.x += m[0].size() / 2;
-		}
-	};
-	lazyComputations_.push_back(c);
+	addComputation([this](ColorMap& m, std::size_t){
+		topLeft_.x = findCenteredTopLeft(m[0].size());
+		topLeft_.y = findCenteredTopLeft(m.size());
+	});
 }
 
 void Square::moveUp()
 {
-
+	addComputation([this](ColorMap&, std::size_t){
+		--topLeft_.y;
+	});
 }
 
 void Square::moveDown()
 {
-
+	addComputation([this](ColorMap&, std::size_t){
+		++topLeft_.y;
+	});
 }
 
 void Square::moveLeft()
 {
-
+	addComputation([this](ColorMap&, std::size_t){
+		++topLeft_.x;
+	});
 }
 
 void Square::moveRight()
 {
-
+	addComputation([this](ColorMap&, std::size_t){
+		--topLeft_.x;
+	});
 }
 
 void Square::zoomIn()
 {
-	const auto c = [this](ColorMap& m, std::size_t imageCount){
-		std::vector<Pixel> newPixels;
-		for (const auto& pixel : body_){
-			addIfUnique(newPixels, Pixel{pixel.x + 1, pixel.y, pixel.c});
-			addIfUnique(newPixels, Pixel{pixel.x + 1, pixel.y + 1, pixel.c});
-			addIfUnique(newPixels, Pixel{pixel.x, pixel.y + 1, pixel.c});
-			addIfUnique(newPixels, Pixel{pixel.x - 1, pixel.y + 1, pixel.c});
-			addIfUnique(newPixels, Pixel{pixel.x - 1, pixel.y, pixel.c});
-			addIfUnique(newPixels, Pixel{pixel.x - 1, pixel.y - 1, pixel.c});
-			addIfUnique(newPixels, Pixel{pixel.x, pixel.y - 1, pixel.c});
-			addIfUnique(newPixels, Pixel{pixel.x + 1, pixel.y - 1, pixel.c});
-		}
-		body_.insert(std::end(body_), std::begin(newPixels), std::end(newPixels));
+	const auto c = [this](ColorMap&, std::size_t){
+		sideLen_ += 2;
+		topLeft_.x -= 1;
+		topLeft_.y -= 1;
 	};
 	lazyComputations_.push_back(c);
 }
 
 void Square::zoomOut()
 {
-
+	const auto c = [this](ColorMap&, std::size_t){
+		sideLen_ -= (sideLen_ < 3) ? 0 : 2;
+		topLeft_.x += 1;
+		topLeft_.y += 1;
+	};
+	lazyComputations_.push_back(c);
 }
 
-void Square::addIfUnique(std::vector<Pixel>& dest, Pixel const& v)
+void Square::setColor(Color const& color)
 {
-	if (std::find(body_.cbegin(), body_.cend(), v) == body_.end())
-		dest.push_back(v);
+	const auto c = [this, color](ColorMap&, std::size_t){
+		topLeft_.c = color;
+	};
+	lazyComputations_.push_back(c);
+}
+
+std::size_t Square::findCenteredTopLeft(std::size_t dimentionLen) const
+{
+	const auto midDimension = dimentionLen / 2;
+	const auto halfVal = sideLen_ / 2;
+	return (midDimension > halfVal) ? midDimension - halfVal : 0;
+}
+
+void Square::addComputation(LazyComputationType&& c) const
+{
+	lazyComputations_.push_back(std::move(c));
 }

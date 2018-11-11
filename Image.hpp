@@ -7,7 +7,7 @@ class Image
 {
 public:
 	Image(std::uint32_t width, std::uint32_t height);
-	void fillNextPixel(Color const&);
+	void fillNextPixel(const Color&);
 	uint8_t const* get() const;
 	void flush();
 

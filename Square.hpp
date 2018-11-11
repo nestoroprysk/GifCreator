@@ -4,10 +4,10 @@
 #include "IDrawable.hpp"
 #include "IMovable.hpp"
 #include "IZoomable.hpp"
-#include "Color.hpp"
+#include "IColorable.hpp"
 #include "Pixel.hpp"
 
-class Square final : public IDrawable, public IMovable, public IZoomable
+class Square final : public IDrawable, public IMovable, public IZoomable, public IColorable
 {
 public:
 	void draw(ColorMap&, std::size_t imageCount) const override;
@@ -18,11 +18,17 @@ public:
 	void moveRight() override;
 	void zoomIn() override;
 	void zoomOut() override;
+	void setColor(Color const&) override;
 
 private:
-	void addIfUnique(std::vector<Pixel>& dest, Pixel const& v);
+	using LazyComputationType = std::function<void(ColorMap&, std::size_t imageCount)>;
 
 private:
-	std::vector<Pixel> body_{Pixel{0, 0, BasicColors::green}};
-	mutable std::vector<std::function<void(ColorMap&, std::size_t imageCount)>> lazyComputations_;
+	std::size_t findCenteredTopLeft(std::size_t dimentionLen) const;
+	void addComputation(LazyComputationType&&) const;
+
+private:
+	Pixel topLeft_{Pixel{0, 0, BasicColors::white}};
+	std::size_t sideLen_ = 1;
+	mutable std::vector<LazyComputationType> lazyComputations_;
 };

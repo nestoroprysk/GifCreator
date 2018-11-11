@@ -3,18 +3,30 @@
 
 int main()
 {
-	const auto width = 100;
-	const auto height = 100;
+	const auto width = 500;
+	const auto height = 500;
+	const auto nbFrames = 50;
 	const auto delay = 10;
-	GifCreator gc(width, height, delay);
-	const auto name = "SampleSquare";
-	gc.registerObject(name, std::make_unique<Square>());
-	gc.changeObject(name, &IMovable::gotoCenter);
-	const auto nbFrames = 10;
-	const auto nbZooms = 5;
-	for (std::size_t i = 0; i < nbFrames; ++i){
-		for (std::size_t j = 0; j < nbZooms; ++j)
-			gc.changeObject(name, &IZoomable::zoomIn);
-		gc.makeFrame();
+	GifCreator gc(width, height, nbFrames, delay);
+	{
+		const auto name = "SampleSquare";
+		gc.registerObject(name, std::make_unique<Square>());
+		gc.changeObjectAt(0, name, &IColorable::setColor, BasicColors::blue);
+		gc.changeObjectAt(25, name, &IMovable::gotoCenter);
+		gc.changeObjectTill(30, name, &IZoomable::zoomIn);
+		gc.changeObjectAt(40, name, &IColorable::setColor, BasicColors::green);
+		gc.changeObjectFrom(40, name, &IZoomable::zoomOut);
+		gc.changeObjectFromTill(30, 40, name, &IMovable::moveUp);
 	}
+	{
+		const auto name = "SampleSquare2";
+		gc.registerObject(name, std::make_unique<Square>());
+		gc.changeObjectAt(0, name, &IColorable::setColor, BasicColors::red);
+		gc.changeObjectAt(0, name, &IMovable::gotoCenter);
+		gc.changeObjectTill(30, name, &IZoomable::zoomIn);
+		gc.changeObjectFrom(40, name, &IZoomable::zoomOut);
+		gc.changeObjectFromTill(30, 40, name, &IMovable::moveDown);
+		gc.changeObjectFromTill(0, 50, name, &IMovable::moveRight);
+	}
+	gc.createGif();
 }
