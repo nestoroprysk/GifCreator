@@ -1,2 +1,7 @@
 1. Provide behaviour class
 2. Enable delayed declarations ===DONE===
+3. Get rid of imageCount in square
+4. from begin
+5. till end
+6. Non-const || non-ref params check
+7. n times overloads

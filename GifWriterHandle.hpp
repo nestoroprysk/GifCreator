@@ -12,9 +12,8 @@ public:
 	~GifWriterHandle();
 private:
 	std::unique_ptr<GifWriter> gwUP_;
-	std::string fileName_;
-	std::uint32_t width_;
-	std::uint32_t height_;
-	std::uint32_t delay_;
-	std::size_t nbFrames_;
+	const std::string fileName_;
+	const std::uint32_t width_;
+	const std::uint32_t height_;
+	const std::uint32_t delay_;
 };

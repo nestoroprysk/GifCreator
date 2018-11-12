@@ -1,7 +1,7 @@
 #include "Square.hpp"
 #include <algorithm>
 
-void Square::draw(ColorMap& m, std::size_t imageCount) const
+void Square::draw(Utils::ColorMatrix& m, std::size_t imageCount) const
 {
 	for (const auto& computation : lazyComputations_)
 		computation(m, imageCount);
@@ -14,7 +14,7 @@ void Square::draw(ColorMap& m, std::size_t imageCount) const
 
 void Square::gotoCenter()
 {
-	addComputation([this](ColorMap& m, std::size_t){
+	addComputation([this](Utils::ColorMatrix& m, std::size_t){
 		topLeft_.x = findCenteredTopLeft(m[0].size());
 		topLeft_.y = findCenteredTopLeft(m.size());
 	});
@@ -22,35 +22,35 @@ void Square::gotoCenter()
 
 void Square::moveUp()
 {
-	addComputation([this](ColorMap&, std::size_t){
+	addComputation([this](Utils::ColorMatrix&, std::size_t){
 		--topLeft_.y;
 	});
 }
 
 void Square::moveDown()
 {
-	addComputation([this](ColorMap&, std::size_t){
+	addComputation([this](Utils::ColorMatrix&, std::size_t){
 		++topLeft_.y;
 	});
 }
 
 void Square::moveLeft()
 {
-	addComputation([this](ColorMap&, std::size_t){
+	addComputation([this](Utils::ColorMatrix&, std::size_t){
 		++topLeft_.x;
 	});
 }
 
 void Square::moveRight()
 {
-	addComputation([this](ColorMap&, std::size_t){
+	addComputation([this](Utils::ColorMatrix&, std::size_t){
 		--topLeft_.x;
 	});
 }
 
 void Square::zoomIn()
 {
-	const auto c = [this](ColorMap&, std::size_t){
+	const auto c = [this](Utils::ColorMatrix&, std::size_t){
 		sideLen_ += 2;
 		topLeft_.x -= 1;
 		topLeft_.y -= 1;
@@ -60,7 +60,7 @@ void Square::zoomIn()
 
 void Square::zoomOut()
 {
-	const auto c = [this](ColorMap&, std::size_t){
+	const auto c = [this](Utils::ColorMatrix&, std::size_t){
 		sideLen_ -= (sideLen_ < 3) ? 0 : 2;
 		topLeft_.x += 1;
 		topLeft_.y += 1;
@@ -70,7 +70,7 @@ void Square::zoomOut()
 
 void Square::setColor(Color const& color)
 {
-	const auto c = [this, color](ColorMap&, std::size_t){
+	const auto c = [this, color](Utils::ColorMatrix&, std::size_t){
 		topLeft_.c = color;
 	};
 	lazyComputations_.push_back(c);

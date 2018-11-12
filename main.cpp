@@ -1,5 +1,6 @@
 #include "GifCreator.hpp"
 #include "Square.hpp"
+#include "Behaviour.hpp"
 
 int main()
 {
@@ -8,25 +9,48 @@ int main()
 	const auto nbFrames = 50;
 	const auto delay = 10;
 	GifCreator gc(width, height, nbFrames, delay);
-	{
-		const auto name = "SampleSquare";
-		gc.registerObject(name, std::make_unique<Square>());
-		gc.changeObjectAt(0, name, &IColorable::setColor, BasicColors::blue);
-		gc.changeObjectAt(25, name, &IMovable::gotoCenter);
-		gc.changeObjectTill(30, name, &IZoomable::zoomIn);
-		gc.changeObjectAt(40, name, &IColorable::setColor, BasicColors::green);
-		gc.changeObjectFrom(40, name, &IZoomable::zoomOut);
-		gc.changeObjectFromTill(30, 40, name, &IMovable::moveUp);
-	}
-	{
-		const auto name = "SampleSquare2";
-		gc.registerObject(name, std::make_unique<Square>());
-		gc.changeObjectAt(0, name, &IColorable::setColor, BasicColors::red);
-		gc.changeObjectAt(0, name, &IMovable::gotoCenter);
-		gc.changeObjectTill(30, name, &IZoomable::zoomIn);
-		gc.changeObjectFrom(40, name, &IZoomable::zoomOut);
-		gc.changeObjectFromTill(30, 40, name, &IMovable::moveDown);
-		gc.changeObjectFromTill(0, 50, name, &IMovable::moveRight);
-	}
+	const auto name = "SampleSquare";
+	const auto name1 = "SampleSquare1";
+	const auto name2 = "SampleSquare2";
+	const auto name3 = "SampleSquare3";
+	gc.registerObject(name, std::make_unique<Square>());
+	gc.registerObject(name1, std::make_unique<Square>());
+	gc.registerObject(name2, std::make_unique<Square>());
+	gc.registerObject(name3, std::make_unique<Square>());
+	Behaviour b(nbFrames);
+	b.at(0, &IMovable::gotoCenter);
+	b.till(25, &IZoomable::zoomIn);
+	b.fromTill(25, 50, &IZoomable::zoomOut);
+	gc.setBehaviour(name, b);
+	gc.setBehaviour(name1, b);
+	gc.setBehaviour(name2, b);
+	gc.setBehaviour(name3, b);
+	Behaviour s(nbFrames);
+	s.till(nbFrames, &IMovable::moveLeft);
+	s.till(nbFrames, &IMovable::moveDown);
+	s.till(nbFrames, &IMovable::moveDown);
+	s.till(nbFrames, &IMovable::moveDown);
+	gc.setBehaviour(name, s);
+	Behaviour s1(nbFrames);
+	s1.at(0, &IColorable::setColor, BasicColors::red);
+	s1.till(nbFrames, &IMovable::moveLeft);
+	s1.till(nbFrames, &IMovable::moveUp);
+	s1.till(nbFrames, &IMovable::moveUp);
+	s1.till(nbFrames, &IMovable::moveUp);
+	gc.setBehaviour(name1, s1);
+	Behaviour s2(nbFrames);
+	s2.at(0, &IColorable::setColor, BasicColors::green);
+	s2.till(nbFrames, &IMovable::moveRight);
+	s2.till(nbFrames, &IMovable::moveRight);
+	s2.till(nbFrames, &IMovable::moveRight);
+	s2.till(nbFrames, &IMovable::moveUp);
+	gc.setBehaviour(name2, s2);
+	Behaviour s3(nbFrames);
+	s3.at(0, &IColorable::setColor, BasicColors::blue);
+	s3.till(nbFrames, &IMovable::moveRight);
+	s3.till(nbFrames, &IMovable::moveDown);
+	s3.till(nbFrames, &IMovable::moveDown);
+	s3.till(nbFrames, &IMovable::moveDown);
+	gc.setBehaviour(name3, s3);
 	gc.createGif();
 }

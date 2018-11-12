@@ -18,9 +18,11 @@ private:
 	Image() = delete;
 
 private:
-	static const std::uint8_t rgba_ = 4;
 	std::unique_ptr<std::uint8_t[]> data_;
-	std::uint32_t width_;
-	std::uint32_t height_;
 	std::uint32_t pixelsFilled_;
+	const std::uint32_t width_;
+	const std::uint32_t height_;
+
+private:
+	static constexpr std::uint8_t rgba_ = 4;
 };

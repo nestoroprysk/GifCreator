@@ -1,7 +1,9 @@
 #include "GifCreator.hpp"
 #include "IDrawable.hpp"
-#include "Square.hpp"
 #include "GifWriterHandle.hpp"
+#include "Behaviour.hpp"
+#include "Image.hpp"
+#include "Color.hpp"
 
 GifCreator::GifCreator(std::uint32_t width, std::uint32_t height, std::size_t nbFrames, std::uint32_t delay)
 	: image_(std::make_unique<Image>(width, height))
@@ -9,7 +11,7 @@ GifCreator::GifCreator(std::uint32_t width, std::uint32_t height, std::size_t nb
 	, height_(height)
 	, nbFrames_(nbFrames)
 	, delay_(delay)
-	, pixelMapper_(ColorMap(height, std::vector<Color>(width)))
+	, pixelMapper_(Utils::ColorMatrix(height, std::vector<Color>(width)))
 {
 	if (width == 0 || height == 0)
 		throw std::invalid_argument("Width and height must be greater than zero");
@@ -42,6 +44,14 @@ void GifCreator::updateImage()
 			image_->fillNextPixel(pixelMapper_[i][j]);
 }
 
+void GifCreator::setBehaviour(const std::string& objectName, const Behaviour& b)
+{
+	auto* o = storage_.at(objectName).get();
+	for (const auto& c : b.get())
+		for (const auto& change : c.second)
+			changes_[c.first].push_back([o, change]{ change(o); });
+}
+
 void GifCreator::createGif(const std::string& fileName)
 {
 	GifWriterHandle gw(fileName, width_, height_, delay_);
@@ -51,3 +61,5 @@ void GifCreator::createGif(const std::string& fileName)
 		makeFrame(gw);
 	}
 }
+
+GifCreator::~GifCreator(){}

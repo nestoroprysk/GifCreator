@@ -1,5 +1,4 @@
 #pragma once
-#include <vector>
 
 struct Color
 {
@@ -13,8 +12,8 @@ class BasicColors
 {
 private:
 	BasicColors() = delete;
-	static const uint8_t min = 0;
-	static const uint8_t max = 255;
+	static constexpr uint8_t min = 0;
+	static constexpr uint8_t max = 255;
 
 public:
 	static constexpr Color black;
@@ -24,4 +23,11 @@ public:
 	static constexpr Color blue{min, min, max};
 };
 
-using ColorMap = std::vector<std::vector<Color>>;
+struct Pixel
+{
+	std::size_t x = 0;
+	std::size_t y = 0;
+	Color c;
+	bool operator==(Pixel const& rhs) const
+		{ return x == rhs.x && y == rhs.y; }
+};

@@ -5,12 +5,11 @@
 #include "IMovable.hpp"
 #include "IZoomable.hpp"
 #include "IColorable.hpp"
-#include "Pixel.hpp"
 
 class Square final : public IDrawable, public IMovable, public IZoomable, public IColorable
 {
 public:
-	void draw(ColorMap&, std::size_t imageCount) const override;
+	void draw(Utils::ColorMatrix&, std::size_t imageCount) const override;
 	void gotoCenter() override;
 	void moveUp() override;
 	void moveDown() override;
@@ -21,7 +20,7 @@ public:
 	void setColor(Color const&) override;
 
 private:
-	using LazyComputationType = std::function<void(ColorMap&, std::size_t imageCount)>;
+	using LazyComputationType = std::function<void(Utils::ColorMatrix&, std::size_t imageCount)>;
 
 private:
 	std::size_t findCenteredTopLeft(std::size_t dimentionLen) const;
