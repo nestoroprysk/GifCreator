@@ -1,6 +1,8 @@
 #pragma once
 #include <vector>
 
+#define lambda(x) ([&]{(x);})
+
 class Color;
 
 namespace Utils

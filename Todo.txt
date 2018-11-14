@@ -5,3 +5,4 @@
 5. till end
 6. Non-const || non-ref params check
 7. n times overloads
+8. think on repeat

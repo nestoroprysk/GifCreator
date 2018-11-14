@@ -1,6 +1,7 @@
 #include "GifCreator.hpp"
 #include "Square.hpp"
 #include "Behaviour.hpp"
+#include "Utils.hpp"
 
 int main()
 {
@@ -48,9 +49,7 @@ int main()
 	Behaviour s3(nbFrames);
 	s3.at(0, &IColorable::setColor, BasicColors::blue);
 	s3.till(nbFrames, &IMovable::moveRight);
-	s3.till(nbFrames, &IMovable::moveDown);
-	s3.till(nbFrames, &IMovable::moveDown);
-	s3.till(nbFrames, &IMovable::moveDown);
+	s3.repeat(lambda(s3.till(nbFrames, &IMovable::moveDown)), 3);
 	gc.setBehaviour(name3, s3);
 	gc.createGif();
 }
