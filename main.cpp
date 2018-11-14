@@ -48,8 +48,8 @@ int main()
 	gc.setBehaviour(name2, s2);
 	Behaviour s3(nbFrames);
 	s3.at(0, &IColorable::setColor, BasicColors::blue);
-	s3.till(nbFrames, &IMovable::moveRight);
-	s3.repeat(lambda(s3.till(nbFrames, &IMovable::moveDown)), 3);
+	for (std::size_t i = 1; i < nbFrames; ++i)
+		s3.till(nbFrames / i, &IMovable::moveRight);
 	gc.setBehaviour(name3, s3);
 	gc.createGif();
 }

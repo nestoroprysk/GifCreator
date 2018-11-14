@@ -25,9 +25,6 @@ public:
 	template <typename T, typename ... Params, typename ... Args>
 	void fromTill(std::size_t from, std::size_t till, void (T::*f)(Params...), Args... args);
 
-	template <typename F>
-	inline void repeat(F, std::size_t);
-
 private:
 	Behaviour() = delete;
 
@@ -78,11 +75,4 @@ void Behaviour::changeObject(T* o, void (T::*f)(Params...), Args... args)
 	if (!o) throw std::logic_error(std::string("Cannot convert object with the name to ") + typeid(T).name());
 	if (!f) throw std::invalid_argument("Invalid functor");
 	(o->*f)(args...);
-}
-
-template <typename F>
-inline void Behaviour::repeat(F f, std::size_t nbTimes)
-{
-	for (std::size_t i = 0; i < nbTimes; ++i)
-		f();
 }
