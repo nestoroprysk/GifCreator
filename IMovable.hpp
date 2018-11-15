@@ -3,10 +3,31 @@
 class IMovable
 {
 public:
-	virtual void gotoCenter() = 0;
-	virtual void moveUp() = 0;
-	virtual void moveDown() = 0;
-	virtual void moveLeft() = 0;
-	virtual void moveRight() = 0;
+	struct moveUp;
+	struct moveDown;
+	struct moveLeft;
+	struct moveRight;
+public:
+	struct moveUp{
+		moveDown mirror() const { return moveDown(); }
+		decltype(auto) get() const { return &IMovable::_moveUp; }
+	};
+	struct moveDown{
+		moveUp mirror() const { return moveUp(); }
+		decltype(auto) get() const { return &IMovable::_moveDown; }
+	};
+	struct moveLeft{
+		moveRight mirror() const { return moveRight(); }
+		decltype(auto) get() const { return &IMovable::_moveLeft; }
+	};
+	struct moveRight{
+		moveLeft mirror() const { return moveLeft(); }
+		decltype(auto) get() const { return &IMovable::_moveRight; }
+	};
+protected:
+	virtual void _moveUp() = 0;
+	virtual void _moveDown() = 0;
+	virtual void _moveLeft() = 0;
+	virtual void _moveRight() = 0;
 	virtual ~IMovable() {}
 };

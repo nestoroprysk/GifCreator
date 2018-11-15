@@ -1,5 +1,4 @@
 #include "Square.hpp"
-#include <algorithm>
 
 void Square::draw(Utils::ColorMatrix& m, std::size_t imageCount) const
 {
@@ -12,7 +11,7 @@ void Square::draw(Utils::ColorMatrix& m, std::size_t imageCount) const
 				m[topLeft_.y + i][topLeft_.x + j] = topLeft_.c;
 }
 
-void Square::gotoCenter()
+void Square::_gotoCenter()
 {
 	addComputation([this](Utils::ColorMatrix& m, std::size_t){
 		topLeft_.x = findCenteredTopLeft(m[0].size());
@@ -20,35 +19,35 @@ void Square::gotoCenter()
 	});
 }
 
-void Square::moveUp()
+void Square::_moveUp()
 {
 	addComputation([this](Utils::ColorMatrix&, std::size_t){
 		--topLeft_.y;
 	});
 }
 
-void Square::moveDown()
+void Square::_moveDown()
 {
 	addComputation([this](Utils::ColorMatrix&, std::size_t){
 		++topLeft_.y;
 	});
 }
 
-void Square::moveLeft()
-{
-	addComputation([this](Utils::ColorMatrix&, std::size_t){
-		++topLeft_.x;
-	});
-}
-
-void Square::moveRight()
+void Square::_moveLeft()
 {
 	addComputation([this](Utils::ColorMatrix&, std::size_t){
 		--topLeft_.x;
 	});
 }
 
-void Square::zoomIn()
+void Square::_moveRight()
+{
+	addComputation([this](Utils::ColorMatrix&, std::size_t){
+		++topLeft_.x;
+	});
+}
+
+void Square::_zoomIn()
 {
 	const auto c = [this](Utils::ColorMatrix&, std::size_t){
 		sideLen_ += 2;
@@ -58,7 +57,7 @@ void Square::zoomIn()
 	lazyComputations_.push_back(c);
 }
 
-void Square::zoomOut()
+void Square::_zoomOut()
 {
 	const auto c = [this](Utils::ColorMatrix&, std::size_t){
 		sideLen_ -= (sideLen_ < 3) ? 0 : 2;
@@ -68,8 +67,19 @@ void Square::zoomOut()
 	lazyComputations_.push_back(c);
 }
 
-void Square::setColor(Color const& color)
+void Square::_setColor(Color const& color)
 {
+	colors_.push(color);
+	const auto c = [this, color](Utils::ColorMatrix&, std::size_t){
+		topLeft_.c = color;
+	};
+	lazyComputations_.push_back(c);
+}
+
+void Square::_unsetColor(Color const&)
+{
+	if (!colors_.empty()) colors_.pop();
+	const auto color = colors_.empty() ? BasicColors::white : colors_.back();
 	const auto c = [this, color](Utils::ColorMatrix&, std::size_t){
 		topLeft_.c = color;
 	};

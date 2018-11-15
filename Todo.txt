@@ -1,8 +1,13 @@
-1. Provide behaviour class
+1. Provide behaviour class ===DONE===
 2. Enable delayed declarations ===DONE===
-3. Get rid of imageCount in square
-4. from begin
-5. till end
-6. Non-const || non-ref params check
-7. n times overloads
-8. think on repeat ===DEPRECATED===
+4. from begin ===DONE===
+5. till end ===DONE===
+6. Non-const || non-ref params check ===DONE===
+8. think on repeat ===DONE===
+9. enable mirroring ===DONE===
+10. set behaviour at ===DONE===
+14. gotocenter should belong to IPositionable ===DONE===
+3. Get rid of imageCount in square ===UP NEXT===
+11. use matrix of transformation
+13. qt app for creation with real time vision
+15. rename a few functions
