@@ -79,7 +79,8 @@ void Square::_setColor(Color const& color)
 void Square::_unsetColor(Color const&)
 {
 	if (!colors_.empty()) colors_.pop();
-	const auto color = colors_.empty() ? BasicColors::white : colors_.back();
+	if (colors_.empty()) throw std::logic_error("Invalid unset color in empty stack.");
+	const auto color = colors_.top();
 	const auto c = [this, color](Type::ColorMatrix&, std::size_t){
 		topLeft_.c = color;
 	};

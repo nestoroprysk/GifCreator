@@ -11,3 +11,14 @@
 11. use matrix of transformation
 13. qt app for creation with real time vision
 15. rename a few functions
+16. generalising primitives to something and
+	enabling modifications on parts
+	(e.g. a man of sticks must be able to move his hand,
+	his hand's finger must be able to move and
+	so on recursively)
+17. it must be possible to create a bucket of objects
+	to which to apply the behaviour (seems like a tag for a related
+	group of objects is needed)
+18. I want a neat way to create a static cloud of points
+19. I want a neat way to create an inside-changing cloud of points
+20. Undo color is not functional

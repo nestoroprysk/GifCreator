@@ -1,7 +1,7 @@
 #pragma once
 #include <vector>
 #include <functional>
-#include <queue>
+#include <stack>
 #include "IDrawable.hpp"
 #include "IPositionable.hpp"
 #include "IMovable.hpp"
@@ -34,5 +34,5 @@ private:
 	std::size_t sideLen_ = 1;
 	mutable std::vector<LazyComputationType> lazyComputations_;
 private:
-	std::queue<Color> colors_;
+	std::stack<Color> colors_;
 };
