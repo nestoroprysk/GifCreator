@@ -9,11 +9,11 @@ public:
 public:
 	struct setColor{
 		unsetColor mirror() const { return unsetColor(); }
-		decltype(auto) get() const { return &IColorable::_setColor; }
+		auto get() const { return &IColorable::_setColor; }
 	};
 	struct unsetColor{
 		setColor mirror() const { return setColor(); }
-		decltype(auto) get() const { return &IColorable::_unsetColor; }
+		auto get() const { return &IColorable::_unsetColor; }
 	};
 protected:
 	virtual void _setColor(const Color&) = 0;

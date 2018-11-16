@@ -1,6 +1,6 @@
 #include "Square.hpp"
 
-void Square::draw(Utils::ColorMatrix& m, std::size_t imageCount) const
+void Square::draw(Type::ColorMatrix& m, std::size_t imageCount) const
 {
 	for (const auto& computation : lazyComputations_)
 		computation(m, imageCount);
@@ -13,7 +13,7 @@ void Square::draw(Utils::ColorMatrix& m, std::size_t imageCount) const
 
 void Square::_gotoCenter()
 {
-	addComputation([this](Utils::ColorMatrix& m, std::size_t){
+	addComputation([this](Type::ColorMatrix& m, std::size_t){
 		topLeft_.x = findCenteredTopLeft(m[0].size());
 		topLeft_.y = findCenteredTopLeft(m.size());
 	});
@@ -21,35 +21,35 @@ void Square::_gotoCenter()
 
 void Square::_moveUp()
 {
-	addComputation([this](Utils::ColorMatrix&, std::size_t){
+	addComputation([this](Type::ColorMatrix&, std::size_t){
 		--topLeft_.y;
 	});
 }
 
 void Square::_moveDown()
 {
-	addComputation([this](Utils::ColorMatrix&, std::size_t){
+	addComputation([this](Type::ColorMatrix&, std::size_t){
 		++topLeft_.y;
 	});
 }
 
 void Square::_moveLeft()
 {
-	addComputation([this](Utils::ColorMatrix&, std::size_t){
+	addComputation([this](Type::ColorMatrix&, std::size_t){
 		--topLeft_.x;
 	});
 }
 
 void Square::_moveRight()
 {
-	addComputation([this](Utils::ColorMatrix&, std::size_t){
+	addComputation([this](Type::ColorMatrix&, std::size_t){
 		++topLeft_.x;
 	});
 }
 
 void Square::_zoomIn()
 {
-	const auto c = [this](Utils::ColorMatrix&, std::size_t){
+	const auto c = [this](Type::ColorMatrix&, std::size_t){
 		sideLen_ += 2;
 		topLeft_.x -= 1;
 		topLeft_.y -= 1;
@@ -59,7 +59,7 @@ void Square::_zoomIn()
 
 void Square::_zoomOut()
 {
-	const auto c = [this](Utils::ColorMatrix&, std::size_t){
+	const auto c = [this](Type::ColorMatrix&, std::size_t){
 		sideLen_ -= (sideLen_ < 3) ? 0 : 2;
 		topLeft_.x += 1;
 		topLeft_.y += 1;
@@ -70,7 +70,7 @@ void Square::_zoomOut()
 void Square::_setColor(Color const& color)
 {
 	colors_.push(color);
-	const auto c = [this, color](Utils::ColorMatrix&, std::size_t){
+	const auto c = [this, color](Type::ColorMatrix&, std::size_t){
 		topLeft_.c = color;
 	};
 	lazyComputations_.push_back(c);
@@ -80,7 +80,7 @@ void Square::_unsetColor(Color const&)
 {
 	if (!colors_.empty()) colors_.pop();
 	const auto color = colors_.empty() ? BasicColors::white : colors_.back();
-	const auto c = [this, color](Utils::ColorMatrix&, std::size_t){
+	const auto c = [this, color](Type::ColorMatrix&, std::size_t){
 		topLeft_.c = color;
 	};
 	lazyComputations_.push_back(c);

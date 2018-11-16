@@ -1,7 +1,7 @@
 #include "GifCreator.hpp"
 #include "Square.hpp"
 #include "Behaviour.hpp"
-#include "Utils.hpp"
+#include "Type.hpp"
 
 int main()
 {
@@ -15,7 +15,7 @@ int main()
 	const auto name = "SampleSquare";
 	
 	{
-		gc.registerObject<Square>(name);
+		gc.registerObject(std::make_unique<Square>(), name);
 	}
 
 	{

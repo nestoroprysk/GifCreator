@@ -1,9 +1,9 @@
 #pragma once
-#include "Utils.hpp"
+#include "Type.hpp"
 
 class IDrawable
 {
 public:
-	virtual void draw(Utils::ColorMatrix&, std::size_t imageCount) const = 0;
+	virtual void draw(Type::ColorMatrix&, std::size_t imageCount) const = 0;
 	virtual ~IDrawable() {}
 };

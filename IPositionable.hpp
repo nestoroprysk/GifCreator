@@ -7,7 +7,7 @@ public:
 public:
 	struct gotoCenter{
 		gotoCenter mirror() const { throw std::logic_error("No mirror function for gotoCenter"); }
-		decltype(auto) get() const { return &IPositionable::_gotoCenter; }
+		auto get() const { return &IPositionable::_gotoCenter; }
 	};
 protected:
 	virtual void _gotoCenter() = 0;

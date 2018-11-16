@@ -10,19 +10,19 @@ public:
 public:
 	struct moveUp{
 		moveDown mirror() const { return moveDown(); }
-		decltype(auto) get() const { return &IMovable::_moveUp; }
+		auto get() const { return &IMovable::_moveUp; }
 	};
 	struct moveDown{
 		moveUp mirror() const { return moveUp(); }
-		decltype(auto) get() const { return &IMovable::_moveDown; }
+		auto get() const { return &IMovable::_moveDown; }
 	};
 	struct moveLeft{
 		moveRight mirror() const { return moveRight(); }
-		decltype(auto) get() const { return &IMovable::_moveLeft; }
+		auto get() const { return &IMovable::_moveLeft; }
 	};
 	struct moveRight{
 		moveLeft mirror() const { return moveLeft(); }
-		decltype(auto) get() const { return &IMovable::_moveRight; }
+		auto get() const { return &IMovable::_moveRight; }
 	};
 protected:
 	virtual void _moveUp() = 0;
