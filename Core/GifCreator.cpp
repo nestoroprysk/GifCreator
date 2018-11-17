@@ -8,8 +8,8 @@ GifCreator::GifCreator(std::uint32_t width, std::uint32_t height, std::size_t nb
 	: image_(std::make_unique<Image>(width, height))
 	, width_(width)
 	, height_(height)
-	, nbFrames_(nbFrames)
 	, delay_(delay)
+	, nbFrames_(nbFrames)
 	, pixelMapper_(Type::ColorMatrix(height, std::vector<Color>(width)))
 {
 	if (width == 0 || height == 0)

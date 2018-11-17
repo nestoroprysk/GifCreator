@@ -1,9 +1,26 @@
-#include "GifCreator.hpp"
-#include "Square.hpp"
-#include "Behaviour.hpp"
-#include "Type.hpp"
+#include <thread>
+#include <QApplication>
+#include <Core/GifCreator.hpp>
+#include <Core/Square.hpp>
+#include <Core/Behaviour.hpp>
+#include <Core/Type.hpp>
+#include <Gui/GifCreatorGui.hpp>
 
-int main()
+static void createSampleGif();
+
+int main(int argc, char **argv)
+{
+	{
+		std::thread t(createSampleGif);
+		t.detach();
+	}
+	QApplication app(argc, argv);
+	GifCreatorGui player;
+	player.showFullScreen();
+	return app.exec();
+}
+
+static void createSampleGif()
 {
 	const auto width = 500;
 	const auto height = 500;

@@ -3,9 +3,9 @@
 
 Image::Image(std::uint32_t width, std::uint32_t height)
 	: data_(std::make_unique<std::uint8_t[]>(width * height * rgba_))
+	, pixelsFilled_(0)
 	, width_(width)
 	, height_(height)
-	, pixelsFilled_(0)
 	{}
 
 void Image::fillNextPixel(const Color& c)

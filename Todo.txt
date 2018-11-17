@@ -22,3 +22,5 @@
 18. I want a neat way to create a static cloud of points
 19. I want a neat way to create an inside-changing cloud of points
 20. Undo color is not functional
+21. Make order of buttons more logical
+22. make code less repetitive

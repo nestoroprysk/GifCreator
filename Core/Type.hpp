@@ -3,7 +3,7 @@
 #include <memory>
 #include <functional>
 
-class Color;
+struct Color;
 class IDrawable;
 
 namespace Type

@@ -6,7 +6,7 @@
 class Image;
 class IDrawable;
 class GifWriterHandle;
-class Color;
+struct Color;
 class ChangeSetType;
 
 class GifCreator
