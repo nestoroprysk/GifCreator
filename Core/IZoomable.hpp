@@ -5,6 +5,7 @@ class IZoomable
 public:
 	struct zoomIn;
 	struct zoomOut;
+
 public:
 	struct zoomIn{
 		zoomOut mirror() const { return zoomOut(); }
@@ -13,7 +14,8 @@ public:
 	struct zoomOut{
 		zoomIn mirror() const { return zoomIn(); }
 		auto get() const { return &IZoomable::_zoomOut; }
-	};	
+	};
+
 protected:
 	virtual void _zoomIn() = 0;
 	virtual void _zoomOut() = 0;

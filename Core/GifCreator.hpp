@@ -1,10 +1,13 @@
 #pragma once
+
 #include <unordered_map>
 #include <string>
+
+#include "Type.hpp"
 #include "Behaviour.hpp"
 
 class Image;
-class IDrawable;
+class INameable;
 class GifWriterHandle;
 struct Color;
 class ChangeSetType;
@@ -18,14 +21,14 @@ private:
 private:
 	using BehaviorGet = auto (Behaviour::*)() const -> const Behaviour::ChangeSetType &;
 	using ImageUP = std::unique_ptr<Image>;
-	using IDrawableUP = std::unique_ptr<IDrawable>;
 
 public:
 	GifCreator(std::uint32_t width, std::uint32_t height, std::size_t nbFrames,
 		std::uint32_t delay = defaultDelay_);
-	void registerObject(std::unique_ptr<IDrawable>&&, const std::string& uniqueName);
-	void setDoBehaviourAt(std::size_t, const std::string& objectName, const Behaviour&);
-	void setUndoBehaviourAt(std::size_t, const std::string& objectName, const Behaviour&);
+	void registerObject(Type::INameableUP&&);
+	void registerBehaviour(Type::BehaviourUP&&);
+	void setDoBehaviourForAt(const std::string& behaviourName, const std::string& objectName, std::size_t);
+	void setUndoBehaviourForAt(const std::string& behaviourName, const std::string& objectName, std::size_t);
 	void createGif(const std::string& fileName = defaultFileName_);
 	~GifCreator();
 
@@ -33,13 +36,10 @@ private:
 	void makeFrame(GifWriterHandle&);
 
 private:
-	GifCreator() = delete;
-
-private:
 	void updateImage();
 
 private:
-	void setSpecifiedBehaviourAt(std::size_t, const std::string& objectName, const Behaviour&, BehaviorGet);
+	void setSpecifiedBehaviourAt(const std::string& behaviourName, const std::string& objectName, std::size_t, BehaviorGet f);
 
 private:
 	ImageUP image_;
@@ -47,7 +47,8 @@ private:
 	const std::uint32_t height_;
 	const std::uint32_t delay_;
 	const std::size_t nbFrames_;
-	std::unordered_map<std::string, IDrawableUP> storage_;
+	std::unordered_map<std::string, Type::IDrawableUP> objectStorage_;
+	std::unordered_map<std::string, Type::BehaviourUP> behaviourStorage_;
 	std::unordered_map<std::size_t, std::vector<std::function<void()>>> changes_;
 	Type::ColorMatrix pixelMapper_;
 };

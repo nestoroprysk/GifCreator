@@ -1,5 +1,9 @@
 #pragma once
+
 #include <optional>
+#include <unordered_map>
+#include <string>
+
 #include "IDrawable.hpp"
 #include "Type.hpp"
 
@@ -13,10 +17,11 @@ public:
 	using ChangeSetType = std::unordered_map<std::size_t, std::vector<std::function<void(const Type::IDrawableUP&)>>>;
 
 public:
-	inline Behaviour(std::size_t nbFrames);
+	inline Behaviour(const std::string& name, std::size_t nbFrames);
 
 	inline auto getDo() const -> const ChangeSetType&;
 	inline auto getUndo() const -> const ChangeSetType&;
+	inline auto getName() const -> const std::string&;
 
 	template <typename T, typename S, std::size_t nbCalls = 1, typename ... Args>
 	void at(std::size_t, Args... args);
@@ -31,9 +36,6 @@ public:
 	void fromTill(std::size_t from, std::size_t till, Args... args);
 
 private:
-	Behaviour() = delete;
-
-private:
 	template <typename T, typename S, std::size_t nbCalls, typename ... Args>
 	void changeObject(const Type::IDrawableUP&, Mode, Args...);
 
@@ -45,9 +47,13 @@ private:
 	mutable std::optional<ChangeSetType> undoChanges_;
 	SubChangeType subChanges_;
 	std::size_t nbFrames_;
+	const std::string name_;
 };
 
-inline Behaviour::Behaviour(std::size_t nbFrames) : nbFrames_(nbFrames) {};
+inline Behaviour::Behaviour(const std::string& name, std::size_t nbFrames)
+	: nbFrames_(nbFrames)
+	, name_(name)
+	{}
 
 inline auto Behaviour::getDo() const -> const ChangeSetType&
 {
@@ -71,6 +77,11 @@ inline auto Behaviour::getUndo() const -> const ChangeSetType&
 					{ f(o, Mode::Undo); });
 	}
 	return undoChanges_.value();
+}
+
+inline auto Behaviour::getName() const -> const std::string&
+{
+	return name_;
 }
 
 template <typename T, typename S, std::size_t nbCalls, typename ... Args>

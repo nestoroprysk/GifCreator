@@ -1,5 +1,6 @@
 #include "GifCreator.hpp"
 #include "IDrawable.hpp"
+#include "INameable.hpp"
 #include "GifWriterHandle.hpp"
 #include "Image.hpp"
 #include "Color.hpp"
@@ -16,10 +17,19 @@ GifCreator::GifCreator(std::uint32_t width, std::uint32_t height, std::size_t nb
 		throw std::invalid_argument("Width and height must be greater than zero");
 }
 
-void GifCreator::registerObject(std::unique_ptr<IDrawable>&& o, const std::string& uniqueName){
-	if (storage_.find(uniqueName) != storage_.end())
-		throw std::invalid_argument("The object with the name " + uniqueName + " already exists");
-	storage_[uniqueName] = std::move(o);
+void GifCreator::registerObject(Type::INameableUP&& o)
+{
+	if (objectStorage_.find(o->getName()) != objectStorage_.end())
+		throw std::invalid_argument("The object with the name " + o->getName() + " already exists");
+	objectStorage_[o->getName()] = Type::IDrawableUP(&dynamic_cast<IDrawable&>(*o));
+	o.release();
+}
+
+void GifCreator::registerBehaviour(Type::BehaviourUP&& b)
+{
+	if (behaviourStorage_.find(b->getName()) != behaviourStorage_.end())
+		throw std::invalid_argument("The behaviour with the name " + b->getName() + " already exists");
+	behaviourStorage_[b->getName()] = std::move(b);
 }
 
 void GifCreator::makeFrame(GifWriterHandle& gwh)
@@ -34,21 +44,21 @@ void GifCreator::makeFrame(GifWriterHandle& gwh)
 
 void GifCreator::updateImage()
 {
-	for (const auto& o : storage_)
+	for (const auto& o : objectStorage_)
 		(o.second)->draw(pixelMapper_, nbFrames_);
 	for (std::size_t i = 0; i < height_; ++i)
 		for (std::size_t j = 0; j < width_; ++j)
 			image_->fillNextPixel(pixelMapper_[i][j]);
 }
 
-void GifCreator::setDoBehaviourAt(std::size_t at, const std::string& objectName, const Behaviour& b)
+void GifCreator::setDoBehaviourForAt(const std::string& behaviourName, const std::string& objectName, std::size_t c)
 {
-	setSpecifiedBehaviourAt(at, objectName, b, &Behaviour::getDo);
+	setSpecifiedBehaviourAt(behaviourName, objectName, c, &Behaviour::getDo);
 }
 
-void GifCreator::setUndoBehaviourAt(std::size_t at, const std::string& objectName, const Behaviour& b)
+void GifCreator::setUndoBehaviourForAt(const std::string& behaviourName, const std::string& objectName, std::size_t c)
 {
-	setSpecifiedBehaviourAt(at, objectName, b, &Behaviour::getUndo);
+	setSpecifiedBehaviourAt(behaviourName, objectName, c, &Behaviour::getUndo);
 }
 
 void GifCreator::createGif(const std::string& fileName)
@@ -63,10 +73,11 @@ void GifCreator::createGif(const std::string& fileName)
 
 GifCreator::~GifCreator(){}
 
-void GifCreator::setSpecifiedBehaviourAt(std::size_t at, const std::string& objectName, const Behaviour& b, BehaviorGet f)
+void GifCreator::setSpecifiedBehaviourAt(const std::string& behaviourName, const std::string& objectName, std::size_t at, BehaviorGet f)
 {
-	const auto& o = storage_.at(objectName);
-	for (const auto& c : (b.*f)())
+	const auto& o = objectStorage_.at(objectName);
+	const auto& bUP = behaviourStorage_.at(behaviourName);
+	for (const auto& c : (*bUP.*f)())
 		for (const auto& change : c.second)
 			changes_[c.first + at].push_back([&o, change]{ change(o); });
 }

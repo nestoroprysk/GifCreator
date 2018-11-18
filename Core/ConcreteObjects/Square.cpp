@@ -1,5 +1,14 @@
 #include "Square.hpp"
 
+Square::Square(const std::string& name)
+	: name_(name)
+	{}
+
+auto Square::getName() const -> const std::string&
+{
+	return name_;
+}
+
 void Square::draw(Type::ColorMatrix& m, std::size_t imageCount) const
 {
 	for (const auto& computation : lazyComputations_)

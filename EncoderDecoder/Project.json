@@ -1,0 +1,30 @@
+{
+	"Objects": [
+		{
+			"Name": "SampleSquare",
+			"Type": "Square"
+		},
+		{
+			"Name": "SampleCircle",
+			"Type": "Circle"
+		}
+	],
+	"Behaviours": [
+		{
+			"Name": "Initial",
+			"Components": [
+				{
+					"Class": "IPositionable",
+					"Method": "gotoCenter",
+					"At": 0
+				}
+			]
+		}
+	],
+	"Applications": [
+		{
+			"ObjectName": "SampleSquare",
+			"BehaviourName": "Initial"
+		}
+	]
+}

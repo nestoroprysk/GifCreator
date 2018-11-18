@@ -24,3 +24,10 @@
 20. Undo color is not functional
 21. Make order of buttons more logical
 22. make code less repetitive
+23. enable user to choose json only
+24. register behaviour
+25. apply behaviour name - name
+26. I must catch exceptions locally
+27. Unregister behaviour
+28. Unregister object
+29. Modifying behaviour via gif creator

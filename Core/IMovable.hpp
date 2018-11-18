@@ -7,6 +7,7 @@ public:
 	struct moveDown;
 	struct moveLeft;
 	struct moveRight;
+
 public:
 	struct moveUp{
 		moveDown mirror() const { return moveDown(); }
@@ -24,6 +25,7 @@ public:
 		moveLeft mirror() const { return moveLeft(); }
 		auto get() const { return &IMovable::_moveRight; }
 	};
+
 protected:
 	virtual void _moveUp() = 0;
 	virtual void _moveDown() = 0;

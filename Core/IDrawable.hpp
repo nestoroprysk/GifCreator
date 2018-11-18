@@ -1,4 +1,5 @@
 #pragma once
+
 #include "Type.hpp"
 
 class IDrawable

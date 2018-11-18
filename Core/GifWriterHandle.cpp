@@ -1,5 +1,6 @@
-#include "GifWriterHandle.hpp"
 #include "gif.h"
+
+#include "GifWriterHandle.hpp"
 
 GifWriterHandle::GifWriterHandle(const std::string& fileName, std::uint32_t width, std::uint32_t height, std::uint32_t delay)
 	: gwUP_(std::make_unique<GifWriter>())
