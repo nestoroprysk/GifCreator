@@ -17,11 +17,11 @@ class GifCreatorGui : public QWidget
 	Q_OBJECT
 
 public:
-	GifCreatorGui(QWidget *parent = 0);
+	GifCreatorGui(QWidget* parent = 0);
 
 public:
 	void saveProject();
-	void openProject(const QString &fileName);
+	void openProject(const QString& fileName);
 	void closeProject();
 
 private slots:
@@ -42,24 +42,24 @@ private:
 
 private:
 	QString currentMovieDirectory;
-	QLabel *movieLabel;
-	QMovie *movie;
-	QToolButton *applyButton;
-	QToolButton *createButton;
-	QToolButton *openButton;
-	QToolButton *closeButton;
-	QToolButton *playButton;
-	QToolButton *saveButton;
-	QToolButton *pauseButton;
-	QToolButton *stopButton;
-	QCheckBox *fitCheckBox;
-	QSlider *frameSlider;
-	QSpinBox *speedSpinBox;
-	QLabel *frameLabel;
-	QLabel *speedLabel;
+	QLabel* movieLabel = nullptr;
+	QMovie* movie = nullptr;
+	QToolButton* applyButton = nullptr;
+	QToolButton* createButton = nullptr;
+	QToolButton* openButton = nullptr;
+	QToolButton* closeButton = nullptr;
+	QToolButton* playButton = nullptr;
+	QToolButton* saveButton = nullptr;
+	QToolButton* pauseButton = nullptr;
+	QToolButton* stopButton = nullptr;
+	QCheckBox* fitCheckBox = nullptr;
+	QSlider* frameSlider = nullptr;
+	QSpinBox* speedSpinBox = nullptr;
+	QLabel* frameLabel = nullptr;
+	QLabel* speedLabel = nullptr;
 
 private:
-	QGridLayout *controlsLayout;
-	QHBoxLayout *buttonsLayout;
-	QVBoxLayout *mainLayout;
+	QGridLayout* controlsLayout = nullptr;
+	QHBoxLayout* buttonsLayout = nullptr;
+	QVBoxLayout* mainLayout = nullptr;
 };

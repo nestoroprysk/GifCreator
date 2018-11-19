@@ -2,7 +2,7 @@
 
 #include "GifCreatorGui.hpp"
 
-GifCreatorGui::GifCreatorGui(QWidget *parent)
+GifCreatorGui::GifCreatorGui(QWidget* parent)
 	: QWidget(parent)
 {
 	movie = new QMovie(this);
@@ -43,7 +43,7 @@ GifCreatorGui::GifCreatorGui(QWidget *parent)
 	updateButtons();
 
 	setWindowTitle(tr("Gif Creator"));
-	resize(400, 400);
+	resize(800, 600);
 }
 
 void GifCreatorGui::create()
@@ -75,7 +75,7 @@ void GifCreatorGui::save()
 
 }
 
-void GifCreatorGui::openProject(const QString &fileName)
+void GifCreatorGui::openProject(const QString& fileName)
 {
 	currentMovieDirectory = QFileInfo(fileName).path();
 
@@ -108,17 +108,19 @@ void GifCreatorGui::updateFrameSlider()
 {
 	bool hasFrames = (movie->currentFrameNumber() >= 0);
 
-	if (hasFrames) {
-		if (movie->frameCount() > 0) {
+	if (hasFrames){
+		if (movie->frameCount() > 0){
 			frameSlider->setMaximum(movie->frameCount() - 1);
-		} else {
+		}
+		else{
 			if (movie->currentFrameNumber() > frameSlider->maximum())
 				frameSlider->setMaximum(movie->currentFrameNumber());
 		}
 		frameSlider->setValue(movie->currentFrameNumber());
-	} else {
+	} 
+	else
 		frameSlider->setMaximum(0);
-	}
+	
 	frameLabel->setEnabled(hasFrames);
 	frameSlider->setEnabled(hasFrames);
 }
@@ -132,8 +134,8 @@ void GifCreatorGui::updateSpeedSlider()
 void GifCreatorGui::updateButtons()
 {
 	closeButton->setEnabled(movie->isValid()); // if project opened
-	playButton->setEnabled(movie->isValid() && movie->frameCount() != 1
-						   && movie->state() == QMovie::NotRunning);
+	playButton->setEnabled(movie->isValid() && movie->frameCount() != 1 &&
+		movie->state() == QMovie::NotRunning);
 	applyButton->setEnabled(movie->isValid()); // if project opened
 	saveButton->setEnabled(movie->isValid()); // if changes made
 	pauseButton->setEnabled(movie->state() != QMovie::NotRunning);

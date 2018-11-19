@@ -1,4 +1,4 @@
-#include "gif.h"
+#include <ThirdParties/gif.h>
 
 #include "GifWriterHandle.hpp"
 

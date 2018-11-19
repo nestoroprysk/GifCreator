@@ -43,10 +43,10 @@ private:
 
 private:
 	ImageUP image_;
-	const std::uint32_t width_;
-	const std::uint32_t height_;
-	const std::uint32_t delay_;
-	const std::size_t nbFrames_;
+	const std::uint32_t width_ = 0;
+	const std::uint32_t height_ = 0;
+	const std::uint32_t delay_ = 0;
+	const std::size_t nbFrames_ = 0;
 	std::unordered_map<std::string, Type::IDrawableUP> objectStorage_;
 	std::unordered_map<std::string, Type::BehaviourUP> behaviourStorage_;
 	std::unordered_map<std::size_t, std::vector<std::function<void()>>> changes_;

@@ -29,7 +29,6 @@ auto Decoder::decodeObjects() const -> std::vector<Type::INameableUP>
 	for (const auto& o : objectList)
 		result.push_back(m.makeConcreteObject(o[Key::Object::type].toString().toStdString(),
 			o[Key::Object::name].toString().toStdString()));
-	// TODO: decode behaviours
 	return result;
 }
 

@@ -20,9 +20,9 @@ private:
 
 private:
 	std::unique_ptr<std::uint8_t[]> data_;
-	std::uint32_t pixelsFilled_;
-	const std::uint32_t width_;
-	const std::uint32_t height_;
+	std::uint32_t pixelsFilled_ = 0;
+	const std::uint32_t width_ = 0;
+	const std::uint32_t height_ = 0;
 
 private:
 	static constexpr std::uint8_t rgba_ = 4;

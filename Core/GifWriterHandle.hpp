@@ -15,7 +15,7 @@ public:
 private:
 	std::unique_ptr<GifWriter> gwUP_;
 	const std::string fileName_;
-	const std::uint32_t width_;
-	const std::uint32_t height_;
-	const std::uint32_t delay_;
+	const std::uint32_t width_ = 0;
+	const std::uint32_t height_ = 0;
+	const std::uint32_t delay_ = 0;
 };
