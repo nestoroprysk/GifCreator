@@ -12,7 +12,19 @@ public:
 	using ObjectBehaviour = std::pair<std::string, std::string>;
 
 public:
-	Decoder(const std::string& = "../EncoderDecoder/Project.json");
+	struct GifParameters{
+		std::size_t width = 0;
+		std::size_t height = 0;
+		std::size_t nbFrames = 0;
+		std::size_t delay = 0;
+	};
+
+private:
+	static constexpr auto testingProject = "../EncoderDecoder/Project.json";
+
+public:
+	Decoder(const std::string& = testingProject);
+	auto decodeGifParameters() const -> GifParameters;
 	auto decodeObjects() const -> std::vector<Type::INameableUP>;
 	auto decodeBehaviours() const -> std::vector<Behaviour>;
 	auto decodeApplications() const -> std::vector<ObjectBehaviour>;

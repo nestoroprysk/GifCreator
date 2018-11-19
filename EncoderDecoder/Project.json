@@ -1,4 +1,11 @@
 {
+	"GifParameters":
+		{
+			"Width": 700,
+			"Height": 500,
+			"NbFrames": 120,
+			"Delay": 5
+		},
 	"Objects": [
 		{
 			"Name": "SampleSquare",
@@ -12,11 +19,36 @@
 	"Behaviours": [
 		{
 			"Name": "Initial",
+			"At": 0,
 			"Components": [
 				{
 					"Class": "IPositionable",
 					"Method": "gotoCenter",
-					"At": 0
+					"From": 0,
+					"Till": 1
+				},
+				{
+					"Class": "IColorable",
+					"Method": "setColor",
+					"Color": [
+						{
+							"r": 0,
+							"g": 255,
+							"b": 0
+						}
+					]
+				}
+			]
+		},
+		{
+			"Name": "Movement",
+			"At": 1,
+			"Components": [
+				{
+					"Class": "IMovable",
+					"Method": "moveRight",
+					"From": 0,
+					"Till": 50
 				}
 			]
 		}
@@ -25,6 +57,16 @@
 		{
 			"ObjectName": "SampleSquare",
 			"BehaviourName": "Initial"
+		}
+	],
+	"Applications": [
+		{
+			"ObjectName": "SampleSquare",
+			"BehaviourName": "Initial"
+		},
+		{
+			"ObjectName": "SampleSquare",
+			"BehaviourName": "Movement"
 		}
 	]
 }

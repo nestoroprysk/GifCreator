@@ -21,6 +21,18 @@ Decoder::Decoder(const std::string& fileName)
 	, content_(readFile())
 	{}
 
+auto Decoder::decodeGifParameters() const -> GifParameters
+{
+	GifParameters result;
+	const auto value = content_.value(QString(Key::General::gifParameters));
+	const auto object = value.toObject();
+	result.width = object[Key::GifParameters::width].toInt();
+	result.height = object[Key::GifParameters::height].toInt();
+	result.nbFrames = object[Key::GifParameters::nbFrames].toInt();
+	result.delay = object[Key::GifParameters::delay].toInt();
+	return result;
+}
+
 auto Decoder::decodeObjects() const -> std::vector<Type::INameableUP>
 {
 	std::vector<Type::INameableUP> result;
@@ -34,7 +46,8 @@ auto Decoder::decodeObjects() const -> std::vector<Type::INameableUP>
 
 auto Decoder::decodeBehaviours() const -> std::vector<Behaviour>
 {
-	return std::vector<Behaviour>();
+	std::vector<Behaviour> result;
+	return result;
 }
 
 auto Decoder::decodeApplications() const -> std::vector<ObjectBehaviour>

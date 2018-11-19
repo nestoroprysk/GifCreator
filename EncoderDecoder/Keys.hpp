@@ -4,9 +4,17 @@ namespace Key
 {
 	namespace General
 	{
+		static constexpr auto gifParameters = "GifParameters";
 		static constexpr auto objectList = "Objects";
 		static constexpr auto behaviourList = "Behaviours";
 		static constexpr auto applicationList = "Applications";
+	}
+	namespace GifParameters
+	{
+		static constexpr auto width = "Width";
+		static constexpr auto height = "Height";
+		static constexpr auto nbFrames = "NbFrames";
+		static constexpr auto delay = "Delay";
 	}
 	namespace Object
 	{

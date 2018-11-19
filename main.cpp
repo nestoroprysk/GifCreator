@@ -1,3 +1,4 @@
+#include <iostream>
 #include <thread>
 #include <QApplication>
 
@@ -8,20 +9,30 @@
 #include <Gui/GifCreatorGui.hpp>
 #include <EncoderDecoder/Decoder.hpp>
 
+static void testDecode();
 static void createSampleGif();
 static int run(int argc, char **argv);
 
 int main(int argc, char **argv)
 {
-	{
-		Decoder d;
-		const auto os = d.decodeObjects();
-	}
+	testDecode();
 	{
 		std::thread t(createSampleGif);
 		t.detach();
 	}
 	return run(argc, argv);
+}
+
+static void testDecode()
+{
+	Decoder d;
+	const auto gp = d.decodeGifParameters();
+	std::cerr << "Gif parameters (" << gp.width << ',' << gp.height <<
+		',' << gp.nbFrames << ',' << gp.delay << ')' << std::endl;
+	const auto os = d.decodeObjects();
+	std::cerr << "Objects:" << std::endl;
+	for (const auto& o : os)
+		std::cerr << '(' << o->getName() << ')' << std::endl;
 }
 
 static void createSampleGif()
