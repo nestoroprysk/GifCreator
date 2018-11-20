@@ -34,3 +34,4 @@
 30. registering an object with the same name should
 	constitute overriding the previous
 31. json error handling
+32. should IPositionableMapper::GotoCenter have () or should it be elsewhere?

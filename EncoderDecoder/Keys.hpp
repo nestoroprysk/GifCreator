@@ -24,17 +24,20 @@ namespace Key
 	namespace Behaviour
 	{
 		static constexpr auto name = "Name";
+		static constexpr auto nbFrames = "NbFrames";
 		static constexpr auto componentList = "Components";
 		namespace Component
 		{
 			static constexpr auto className = "Class";
 			static constexpr auto methodName = "Method";
-			static constexpr auto rangeAt = "At";
+			static constexpr auto from = "From";
+			static constexpr auto till = "Till";
 		}
 	}
 	namespace Application
 	{
 		static constexpr auto objectName = "ObjectName";
 		static constexpr auto behaviourName = "BehaviourName";
+		static constexpr auto at = "At";
 	}
 }

@@ -19,7 +19,7 @@
 	"Behaviours": [
 		{
 			"Name": "Initial",
-			"At": 0,
+			"NbFrames": 1,
 			"Components": [
 				{
 					"Class": "IPositionable",
@@ -36,13 +36,15 @@
 							"g": 255,
 							"b": 0
 						}
-					]
+					],
+					"From": 0,
+					"Till": 1
 				}
 			]
 		},
 		{
 			"Name": "Movement",
-			"At": 1,
+			"NbFrames": 50,
 			"Components": [
 				{
 					"Class": "IMovable",
@@ -56,17 +58,13 @@
 	"Applications": [
 		{
 			"ObjectName": "SampleSquare",
-			"BehaviourName": "Initial"
-		}
-	],
-	"Applications": [
-		{
-			"ObjectName": "SampleSquare",
-			"BehaviourName": "Initial"
+			"BehaviourName": "Initial",
+			"At": 0
 		},
 		{
 			"ObjectName": "SampleSquare",
-			"BehaviourName": "Movement"
+			"BehaviourName": "Movement",
+			"At": 1
 		}
 	]
 }

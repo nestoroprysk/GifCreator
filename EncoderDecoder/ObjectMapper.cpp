@@ -5,7 +5,7 @@
 #include "Values.hpp"
 #include "IObjectFactory.hpp"
 #include "ObjectFactory.hpp"
-#include <iostream>
+
 namespace
 {
 	using SquareObjectFactory = ObjectFactory<Square>;

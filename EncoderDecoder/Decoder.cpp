@@ -1,19 +1,15 @@
 #include <ios>
 #include <QFile>
-#include <QIODevice>
 #include <QDebug>
 #include <QJsonDocument>
-#include <QJsonObject>
-#include <QJsonValue>
 #include <QJsonArray>
-#include <QObject>
-#include <QString>
 
 #include <Core/INameable.hpp>
 #include <Core/Behaviour.hpp>
 
 #include "Keys.hpp"
 #include "ObjectMapper.hpp"
+#include "BehaviourDecoder.hpp"
 #include "Decoder.hpp"
 
 Decoder::Decoder(const std::string& fileName)
@@ -44,9 +40,13 @@ auto Decoder::decodeObjects() const -> std::vector<Type::INameableUP>
 	return result;
 }
 
-auto Decoder::decodeBehaviours() const -> std::vector<Behaviour>
+auto Decoder::decodeBehaviours() const -> std::vector<Type::BehaviourUP>
 {
-	std::vector<Behaviour> result;
+	std::vector<Type::BehaviourUP> result;
+	const auto bs = content_[Key::General::behaviourList].toArray();
+	BehaviourDecoder bd;
+	for (const auto& o : bs)
+		result.push_back(bd.decode(o));
 	return result;
 }
 

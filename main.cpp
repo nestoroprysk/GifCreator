@@ -33,6 +33,7 @@ static void testDecode()
 	std::cerr << "Objects:" << std::endl;
 	for (const auto& o : os)
 		std::cerr << '(' << o->getName() << ')' << std::endl;
+	const auto bs = d.decodeBehaviours();
 }
 
 static void createSampleGif()

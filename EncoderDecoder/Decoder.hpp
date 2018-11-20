@@ -26,7 +26,7 @@ public:
 	Decoder(const std::string& = testingProject);
 	auto decodeGifParameters() const -> GifParameters;
 	auto decodeObjects() const -> std::vector<Type::INameableUP>;
-	auto decodeBehaviours() const -> std::vector<Behaviour>;
+	auto decodeBehaviours() const -> std::vector<Type::BehaviourUP>;
 	auto decodeApplications() const -> std::vector<ObjectBehaviour>;
 
 private:
