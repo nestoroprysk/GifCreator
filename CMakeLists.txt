@@ -6,11 +6,6 @@ if (${CMAKE_SOURCE_DIR} STREQUAL ${CMAKE_BINARY_DIR})
     message(FATAL_ERROR "In-source builds are prohibited. Sorry :(")
 endif()
 
-if (NOT APPLE)
-    message(FATAL_ERROR
-    "The project may be built only in macOS for now. Sorry :(")
-endif()
-
 set(CMAKE_CXX_STANDARD 17)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Werror -Wextra")
@@ -23,7 +18,7 @@ add_executable(GifCreator main.cpp)
 
 target_include_directories(GifCreator PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 
-target_link_libraries(GifCreator Core Gui EncoderDecoder)
+target_link_libraries(GifCreator Core Gui Registrar)
 
 #qt configurations
 
@@ -45,7 +40,7 @@ file(GLOB CoreSources
         ${CMAKE_CURRENT_SOURCE_DIR}/Core/ConcreteObjects/*.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Core/ConcreteObjects/*.hpp)
 
-add_library(Core STATIC ${CoreSources})
+add_library(Core SHARED ${CoreSources})
 
 target_include_directories(Core PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 
@@ -56,21 +51,21 @@ file(GLOB GuiSources
         ${CMAKE_CURRENT_SOURCE_DIR}/Gui/*.h
         ${CMAKE_CURRENT_SOURCE_DIR}/Gui/*.hpp)
 
-add_library(Gui STATIC ${GuiSources})
+add_library(Gui SHARED ${GuiSources})
 
 target_link_libraries(Gui Qt5::Widgets)
 
 target_include_directories(Gui PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 
-#encoderDecoder configurations
+#Registrar configurations
 
-file(GLOB EncoderDecoderSources
-        ${CMAKE_CURRENT_SOURCE_DIR}/EncoderDecoder/*.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/EncoderDecoder/*.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/EncoderDecoder/*.hpp)
+file(GLOB RegistrarSources
+        ${CMAKE_CURRENT_SOURCE_DIR}/Registrar/*.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/Registrar/*.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/Registrar/*.hpp)
 
-add_library(EncoderDecoder STATIC ${EncoderDecoderSources})
+add_library(Registrar SHARED ${RegistrarSources})
 
-target_link_libraries(EncoderDecoder Qt5::Widgets)
+target_link_libraries(Registrar Core Qt5::Widgets)
 
-target_include_directories(EncoderDecoder PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+target_include_directories(Registrar PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})

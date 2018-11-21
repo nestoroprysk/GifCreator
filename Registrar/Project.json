@@ -14,6 +14,10 @@
 		{
 			"Name": "SampleCircle",
 			"Type": "Circle"
+		},
+		{
+			"Name": "SampleTriangle",
+			"Type": "Triangle"
 		}
 	],
 	"Behaviours": [
@@ -49,6 +53,12 @@
 				{
 					"Class": "IMovable",
 					"Method": "moveRight",
+					"From": 0,
+					"Till": 50
+				},
+				{
+					"Class": "IMovable",
+					"Method": "moveDown",
 					"From": 0,
 					"Till": 50
 				}

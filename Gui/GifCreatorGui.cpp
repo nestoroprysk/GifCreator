@@ -133,11 +133,11 @@ void GifCreatorGui::updateSpeedSlider()
 
 void GifCreatorGui::updateButtons()
 {
-	closeButton->setEnabled(movie->isValid()); // if project opened
+	closeButton->setEnabled(movie->isValid());
 	playButton->setEnabled(movie->isValid() && movie->frameCount() != 1 &&
 		movie->state() == QMovie::NotRunning);
-	applyButton->setEnabled(movie->isValid()); // if project opened
-	saveButton->setEnabled(movie->isValid()); // if changes made
+	applyButton->setEnabled(movie->isValid());
+	saveButton->setEnabled(movie->isValid());
 	pauseButton->setEnabled(movie->state() != QMovie::NotRunning);
 	pauseButton->setChecked(movie->state() == QMovie::Paused);
 	stopButton->setEnabled(movie->state() != QMovie::NotRunning);

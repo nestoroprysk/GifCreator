@@ -6,7 +6,7 @@
 
 class Behaviour;
 
-class Decoder
+class Registrar
 {
 public:
 	using ObjectBehaviour = std::pair<std::string, std::string>;
@@ -20,14 +20,14 @@ public:
 	};
 
 private:
-	static constexpr auto testingProject = "../EncoderDecoder/Project.json";
+	static constexpr auto testingProject = "../Registrar/Project.json";
 
 public:
-	Decoder(const std::string& = testingProject);
-	auto decodeGifParameters() const -> GifParameters;
-	auto decodeObjects() const -> std::vector<Type::INameableUP>;
-	auto decodeBehaviours() const -> std::vector<Type::BehaviourUP>;
-	auto decodeApplications() const -> std::vector<ObjectBehaviour>;
+	Registrar(const std::string& = testingProject);
+	auto registerGifParameters() const -> GifParameters;
+	auto registerObjects() const -> std::vector<Type::INameableUP>;
+	auto registerBehaviours() const -> std::vector<Type::BehaviourUP>;
+	auto registerApplications() const -> std::vector<ObjectBehaviour>;
 
 private:
 	QJsonObject readFile() const;

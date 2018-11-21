@@ -35,3 +35,4 @@
 	constitute overriding the previous
 31. json error handling
 32. should IPositionableMapper::GotoCenter have () or should it be elsewhere?
+33. BehaviourClassRegistrar is not a factory

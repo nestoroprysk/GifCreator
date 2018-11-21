@@ -4,10 +4,11 @@
 
 #include <Core/GifCreator.hpp>
 #include <Core/ConcreteObjects/Square.hpp>
+#include <Core/ConcreteObjects/Triangle.hpp>
 #include <Core/Behaviour.hpp>
 #include <Core/Type.hpp>
 #include <Gui/GifCreatorGui.hpp>
-#include <EncoderDecoder/Decoder.hpp>
+#include <Registrar/Registrar.hpp>
 
 static void testDecode();
 static void createSampleGif();
@@ -25,15 +26,15 @@ int main(int argc, char **argv)
 
 static void testDecode()
 {
-	Decoder d;
-	const auto gp = d.decodeGifParameters();
+	Registrar d;
+	const auto gp = d.registerGifParameters();
 	std::cerr << "Gif parameters (" << gp.width << ',' << gp.height <<
 		',' << gp.nbFrames << ',' << gp.delay << ')' << std::endl;
-	const auto os = d.decodeObjects();
+	const auto os = d.registerObjects();
 	std::cerr << "Objects:" << std::endl;
 	for (const auto& o : os)
 		std::cerr << '(' << o->getName() << ')' << std::endl;
-	const auto bs = d.decodeBehaviours();
+	const auto bs = d.registerBehaviours();
 }
 
 static void createSampleGif()
@@ -48,11 +49,13 @@ static void createSampleGif()
 	const auto name = "SampleSquare";
 	const auto name1 = "SampleSquare1";
 	const auto name2 = "SampleSquare2";
+	const auto name3 = "SampleTriangle";
 
 	{
 		gc.registerObject(std::make_unique<Square>(name));
 		gc.registerObject(std::make_unique<Square>(name1));
 		gc.registerObject(std::make_unique<Square>(name2));
+		gc.registerObject(std::make_unique<Triangle>(name3));
 	}
 
 	{

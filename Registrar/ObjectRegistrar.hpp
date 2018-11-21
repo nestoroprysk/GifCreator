@@ -7,14 +7,14 @@
 
 class IObjectFactory;
 
-class ObjectMapper
+class ObjectRegistrar
 {
 public:
 	auto makeConcreteObject(const std::string& typeName, const std::string& objectName) -> Type::INameableUP;
 
 public:
-	ObjectMapper();
-	~ObjectMapper();
+	ObjectRegistrar();
+	~ObjectRegistrar();
 
 public:
 	using IObjectFactoryUP = std::unique_ptr<IObjectFactory>;
