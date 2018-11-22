@@ -16,34 +16,25 @@ public:
 		std::size_t from, std::size_t till, const QJsonValue&) const;
 
 private:
-	using lambda = std::function<void(Type::BehaviourUP& b,
+	using registerMethod = std::function<void(Type::BehaviourUP& b,
 		std::size_t from, std::size_t till, const QJsonValue& j)>;
-	std::unordered_map<std::string, lambda> m_;
+	std::unordered_map<std::string, registerMethod> m_;
 };
+
+namespace
+{
+	template <typename T>
+	void registerMovableMethod(Type::BehaviourUP& b, std::size_t from, std::size_t till, const QJsonValue&)
+		{ b->fromTill<IMovable, T>(from, till); }
+}
 
 template <>
 inline BehaviourMethodRegistrar<IMovable>::BehaviourMethodRegistrar()
 {
-	m_.insert({Value::IMovableMethod::moveUp,
-		[](Type::BehaviourUP& b, std::size_t from, std::size_t till, const QJsonValue&){
-			b->fromTill<IMovable, IMovable::moveUp>(from, till);
-		}
-	});
-	m_.insert({Value::IMovableMethod::moveDown,
-		[](Type::BehaviourUP& b, std::size_t from, std::size_t till, const QJsonValue&){
-			b->fromTill<IMovable, IMovable::moveDown>(from, till);
-		}
-	});
-	m_.insert({Value::IMovableMethod::moveLeft,
-		[](Type::BehaviourUP& b, std::size_t from, std::size_t till, const QJsonValue&){
-			b->fromTill<IMovable, IMovable::moveLeft>(from, till);
-		} 
-	});
-	m_.insert({Value::IMovableMethod::moveRight,
-		[](Type::BehaviourUP& b, std::size_t from, std::size_t till, const QJsonValue&){
-			b->fromTill<IMovable, IMovable::moveRight>(from, till);
-		}
-	});
+	m_.insert({Value::IMovableMethod::moveUp, registerMovableMethod<IMovable::moveUp>});
+	m_.insert({Value::IMovableMethod::moveDown, registerMovableMethod<IMovable::moveDown>});
+	m_.insert({Value::IMovableMethod::moveLeft, registerMovableMethod<IMovable::moveLeft>});
+	m_.insert({Value::IMovableMethod::moveRight, registerMovableMethod<IMovable::moveRight>});
 }
 
 template <>
