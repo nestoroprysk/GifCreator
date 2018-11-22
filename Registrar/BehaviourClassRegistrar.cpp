@@ -5,8 +5,6 @@
 
 #include "BehaviourClassRegistrar.hpp"
 
-#include <iostream>
-
 template <>
 void BehaviourClassRegistrar<IPositionable>::registerClass(Type::BehaviourUP&, const std::string&,
 		std::size_t, std::size_t, const QJsonValue&) const

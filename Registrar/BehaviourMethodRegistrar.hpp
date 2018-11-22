@@ -1,9 +1,7 @@
 #pragma once
 
-#include <any>
-#include <tuple>
+#include <functional>
 #include <unordered_map>
-#include <iostream>
 #include <QJsonValue>
 
 #include <Core/IMovable.hpp>
@@ -14,34 +12,45 @@ class BehaviourMethodRegistrar
 {
 public:
 	BehaviourMethodRegistrar();
-	auto operator()(Type::BehaviourUP&, const std::string& methodName,
+	void operator()(Type::BehaviourUP&, const std::string& methodName,
 		std::size_t from, std::size_t till, const QJsonValue&) const;
 
 private:
-	std::any tuple_;
-	std::unordered_map<std::string, std::any> m_;
+	using lambda = std::function<void(Type::BehaviourUP& b,
+		std::size_t from, std::size_t till, const QJsonValue& j)>;
+	std::unordered_map<std::string, lambda> m_;
 };
-
-namespace
-{
-	enum class IMovableTupleIndex { moveUp, moveDown, moveLeft, moveRight };
-}
 
 template <>
 inline BehaviourMethodRegistrar<IMovable>::BehaviourMethodRegistrar()
 {
-	tuple_ = std::make_tuple(IMovable::moveUp(), IMovable::moveDown(), IMovable::moveLeft(), IMovable::moveRight());
-	m_.insert({Value::IMovableMethod::moveUp, IMovableTupleIndex::moveUp});
-	m_.insert({Value::IMovableMethod::moveDown, IMovableTupleIndex::moveDown});
-	m_.insert({Value::IMovableMethod::moveLeft, IMovableTupleIndex::moveLeft});
-	m_.insert({Value::IMovableMethod::moveRight, IMovableTupleIndex::moveRight});
+	m_.insert({Value::IMovableMethod::moveUp,
+		[](Type::BehaviourUP& b, std::size_t from, std::size_t till, const QJsonValue&){
+			b->fromTill<IMovable, IMovable::moveUp>(from, till);
+		}
+	});
+	m_.insert({Value::IMovableMethod::moveDown,
+		[](Type::BehaviourUP& b, std::size_t from, std::size_t till, const QJsonValue&){
+			b->fromTill<IMovable, IMovable::moveDown>(from, till);
+		}
+	});
+	m_.insert({Value::IMovableMethod::moveLeft,
+		[](Type::BehaviourUP& b, std::size_t from, std::size_t till, const QJsonValue&){
+			b->fromTill<IMovable, IMovable::moveLeft>(from, till);
+		} 
+	});
+	m_.insert({Value::IMovableMethod::moveRight,
+		[](Type::BehaviourUP& b, std::size_t from, std::size_t till, const QJsonValue&){
+			b->fromTill<IMovable, IMovable::moveRight>(from, till);
+		}
+	});
 }
 
 template <>
-inline auto BehaviourMethodRegistrar<IMovable>::operator()(Type::BehaviourUP&, const std::string&,
-		std::size_t, std::size_t, const QJsonValue&) const
+inline void BehaviourMethodRegistrar<IMovable>::operator()(Type::BehaviourUP& b, const std::string& methodName,
+		std::size_t from, std::size_t till, const QJsonValue& j) const
 {
-	// In progress
+	m_.at(methodName)(b, from, till, j);
 }
 
 template <typename T>
@@ -51,8 +60,8 @@ inline BehaviourMethodRegistrar<T>::BehaviourMethodRegistrar()
 }
 
 template <typename T>
-inline auto BehaviourMethodRegistrar<T>::operator()(Type::BehaviourUP&, const std::string&,
+inline void BehaviourMethodRegistrar<T>::operator()(Type::BehaviourUP&, const std::string&,
 		std::size_t, std::size_t, const QJsonValue&) const
 {
-	return -1;
+
 }
