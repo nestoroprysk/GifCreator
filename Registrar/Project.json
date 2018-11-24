@@ -34,13 +34,12 @@
 				{
 					"Class": "IColorable",
 					"Method": "setColor",
-					"Color": [
+					"Color":
 						{
 							"r": 0,
 							"g": 255,
 							"b": 0
-						}
-					],
+						},
 					"From": 0,
 					"Till": 1
 				}

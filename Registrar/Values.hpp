@@ -14,11 +14,32 @@ namespace Value
 		static constexpr auto IMovable = "IMovable";
 		static constexpr auto IColorable = "IColorable";
 	}
+	namespace IPositionableMethod
+	{
+		static constexpr auto gotoCenter = "gotoCenter";
+	}
 	namespace IMovableMethod
 	{
 		static constexpr auto moveUp = "moveUp";
 		static constexpr auto moveDown = "moveDown";
 		static constexpr auto moveLeft = "moveLeft";
 		static constexpr auto moveRight = "moveRight";
+	}
+	namespace IColorableMethod
+	{
+		static constexpr auto setColor = "setColor";
+		namespace SetColor
+		{
+			namespace Argument
+			{
+				static constexpr auto Color = "Color";
+				namespace ColorComponent
+				{
+					static constexpr auto r = "r";
+					static constexpr auto g = "g";
+					static constexpr auto b = "b";
+				}
+			}
+		}
 	}
 }
