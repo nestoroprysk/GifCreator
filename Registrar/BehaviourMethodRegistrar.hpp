@@ -18,10 +18,22 @@ public:
 		std::size_t from, std::size_t till, const QJsonValue&) const;
 
 private:
+	template <typename M>
+	void registerMonad(Type::BehaviourUP& b, std::size_t from, std::size_t till, const QJsonValue&);
+
+private:
 	using registerMethod = std::function<void(Type::BehaviourUP& b,
 		std::size_t from, std::size_t till, const QJsonValue& j)>;
 	std::unordered_map<std::string, registerMethod> m_;
 };
+
+template <typename T, typename M>
+inline void BehaviourMethodRegistrar<T>::registerMonad(Type::BehaviourUP& b, std::size_t from, std::size_t till, const QJsonValue&)
+{
+	b->fromTill<T, M>(from, till);
+}
+
+// IPositionable instantiation
 
 template <>
 inline void BehaviourMethodRegistrar<IPositionable>::operator()(Type::BehaviourUP& b, const std::string&,
@@ -30,20 +42,15 @@ inline void BehaviourMethodRegistrar<IPositionable>::operator()(Type::BehaviourU
 	b->fromTill<IPositionable, IPositionable::gotoCenter>(from, till);
 }
 
-namespace
-{
-	template <typename T>
-	void registerMovableMethod(Type::BehaviourUP& b, std::size_t from, std::size_t till, const QJsonValue&)
-		{ b->fromTill<IMovable, T>(from, till); }
-}
+// IMovable instantiation
 
 template <>
 inline BehaviourMethodRegistrar<IMovable>::BehaviourMethodRegistrar()
 {
-	m_.insert({Value::IMovableMethod::moveUp, registerMovableMethod<IMovable::moveUp>});
-	m_.insert({Value::IMovableMethod::moveDown, registerMovableMethod<IMovable::moveDown>});
-	m_.insert({Value::IMovableMethod::moveLeft, registerMovableMethod<IMovable::moveLeft>});
-	m_.insert({Value::IMovableMethod::moveRight, registerMovableMethod<IMovable::moveRight>});
+	m_.insert({Value::IMovableMethod::moveUp, registerMonad<IMovable::moveUp>});
+	m_.insert({Value::IMovableMethod::moveDown, registerMonad<IMovable::moveDown>});
+	m_.insert({Value::IMovableMethod::moveLeft, registerMonad<IMovable::moveLeft>});
+	m_.insert({Value::IMovableMethod::moveRight, registerMonad<IMovable::moveRight>});
 }
 
 template <>
@@ -52,6 +59,12 @@ inline void BehaviourMethodRegistrar<IMovable>::operator()(Type::BehaviourUP& b,
 {
 	m_.at(methodName)(b, from, till, j);
 }
+
+// IZoomable instantiation
+
+
+
+// IColorable instantiation
 
 template <>
 inline void BehaviourMethodRegistrar<IColorable>::operator()(Type::BehaviourUP& b, const std::string&,
@@ -63,6 +76,8 @@ inline void BehaviourMethodRegistrar<IColorable>::operator()(Type::BehaviourUP& 
 	const uint8_t cb = colorJ[Value::IColorableMethod::SetColor::Argument::ColorComponent::b].toInt();
 	b->fromTill<IColorable, IColorable::setColor>(from, till, Color{cr, cg, cb});
 }
+
+// General case
 
 template <typename T>
 inline void BehaviourMethodRegistrar<T>::operator()(Type::BehaviourUP&, const std::string&,
