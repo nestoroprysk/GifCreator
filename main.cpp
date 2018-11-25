@@ -4,7 +4,6 @@
 
 #include <Core/GifCreator.hpp>
 #include <Core/ConcreteObjects/Square.hpp>
-#include <Core/ConcreteObjects/Triangle.hpp>
 #include <Core/Behaviour.hpp>
 #include <Core/Type.hpp>
 #include <Gui/GifCreatorGui.hpp>
@@ -55,13 +54,11 @@ static void createSampleGif()
 	const auto name = "SampleSquare";
 	const auto name1 = "SampleSquare1";
 	const auto name2 = "SampleSquare2";
-	const auto name3 = "SampleTriangle";
 
 	{
 		gc.registerObject(std::make_unique<Square>(name));
 		gc.registerObject(std::make_unique<Square>(name1));
 		gc.registerObject(std::make_unique<Square>(name2));
-		gc.registerObject(std::make_unique<Triangle>(name3));
 	}
 
 	{

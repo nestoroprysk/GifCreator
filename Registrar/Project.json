@@ -3,7 +3,7 @@
 		{
 			"Width": 700,
 			"Height": 500,
-			"NbFrames": 120,
+			"NbFrames": 100,
 			"Delay": 5
 		},
 	"Objects": [
@@ -12,12 +12,8 @@
 			"Type": "Square"
 		},
 		{
-			"Name": "SampleCircle",
-			"Type": "Circle"
-		},
-		{
-			"Name": "SampleTriangle",
-			"Type": "Triangle"
+			"Name": "SampleSquare2",
+			"Type": "Square"
 		}
 	],
 	"Behaviours": [
@@ -46,9 +42,51 @@
 			]
 		},
 		{
+			"Name": "ColorChange",
+			"NbFrames": 1,
+			"Components": [
+				{
+					"Class": "IColorable",
+					"Method": "setColor",
+					"Color":
+						{
+							"r": 255,
+							"g": 0,
+							"b": 0
+						},
+					"From": 40,
+					"Till": 41
+				},
+				{
+					"Class": "IColorable",
+					"Method": "setColor",
+					"Color":
+						{
+							"r": 0,
+							"g": 0,
+							"b": 255
+						},
+					"From": 80,
+					"Till": 81
+				}
+			]
+		},
+		{
 			"Name": "Movement",
 			"NbFrames": 50,
 			"Components": [
+				{
+					"Class": "IMovable",
+					"Method": "moveRight",
+					"From": 0,
+					"Till": 50
+				},
+				{
+					"Class": "IMovable",
+					"Method": "moveRight",
+					"From": 0,
+					"Till": 50
+				},
 				{
 					"Class": "IMovable",
 					"Method": "moveRight",
@@ -62,15 +100,15 @@
 					"Till": 50
 				},
 				{
-					"Class": "IZoomable",
-					"Method": "zoomIn",
+					"Class": "IMovable",
+					"Method": "moveDown",
 					"From": 0,
-					"Till": 25
+					"Till": 50
 				},
 				{
 					"Class": "IZoomable",
-					"Method": "zoomOut",
-					"From": 25,
+					"Method": "zoomIn",
+					"From": 0,
 					"Till": 50
 				}
 			]
@@ -93,7 +131,19 @@
 			"Mode": "Undo",
 			"ObjectName": "SampleSquare",
 			"BehaviourName": "Movement",
-			"At": 25
+			"At": 50
+		},
+		{
+			"Mode": "Do",
+			"ObjectName": "SampleSquare",
+			"BehaviourName": "ColorChange",
+			"At": 0
+		},
+		{
+			"Mode": "Do",
+			"ObjectName": "SampleSquare2",
+			"BehaviourName": "Movement",
+			"At": 0
 		}
 	]
 }
