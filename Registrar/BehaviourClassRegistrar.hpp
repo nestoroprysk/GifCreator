@@ -12,16 +12,18 @@ template <typename T>
 class BehaviourClassRegistrar final : public IBehaviourClassRegistrar
 {
 public:
-	void registerClass(Type::BehaviourUP&, const std::string& methodName,
-		std::size_t from, std::size_t till, const QJsonValue&) const override;
+	IBehaviourClassRegistrar::BehaviourComponentRegistrar
+		operator()(const std::string& methodName,
+			std::size_t from, std::size_t till, const QJsonValue&) const override;
 
 private:
 	BehaviourMethodRegistrar<T> bmr_;
 };
 
 template <typename T>
-void BehaviourClassRegistrar<T>::registerClass(Type::BehaviourUP& b, const std::string& methodName,
+auto BehaviourClassRegistrar<T>::operator()(const std::string& methodName,
 		std::size_t from, std::size_t till, const QJsonValue& j) const
+			-> IBehaviourClassRegistrar::BehaviourComponentRegistrar
 {
-	bmr_(b, methodName, from, till, j);
+	return bmr_(methodName, from, till, j);
 }

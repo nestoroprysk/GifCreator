@@ -44,5 +44,7 @@ void BehaviourRegistrar::makeComponent(const QJsonValue& o)
 	const auto methodName = o[Key::Behaviour::Component::methodName].toString();
 	const auto from = o[Key::Behaviour::Component::from].toInt();
 	const auto till = o[Key::Behaviour::Component::till].toInt();
-	m_[className.toStdString()]->registerClass(result_, methodName.toStdString(), from, till, o);
+	const auto componentRegistrar = (*m_[className.toStdString()])
+		(methodName.toStdString(), from, till, o);
+	componentRegistrar(result_);
 }

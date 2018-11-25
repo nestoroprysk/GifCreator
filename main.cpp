@@ -35,6 +35,9 @@ static void testDecode()
 	for (const auto& o : os)
 		std::cerr << '(' << o->getName() << ')' << std::endl;
 	const auto bs = d.registerBehaviours();
+	for (const auto& b : bs)
+		std::cerr << '<' << b->getName() << '>' << std::endl;
+	const auto as = d.registerApplications();
 }
 
 static void createSampleGif()

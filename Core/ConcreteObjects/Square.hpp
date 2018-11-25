@@ -30,16 +30,16 @@ public:
 	void _unsetColor(Color const&) override;
 
 private:
-	using LazyComputationType = std::function<void(Type::ColorMatrix&, std::size_t imageCount)>;
+	using LazyComputation = std::function<void(Type::ColorMatrix&, std::size_t imageCount)>;
 
 private:
 	std::size_t findCenteredTopLeft(std::size_t dimentionLen) const;
-	void addComputation(LazyComputationType&&) const;
+	void addComputation(LazyComputation&&) const;
 
 private:
 	Pixel topLeft_{Pixel{0, 0, BasicColors::white}};
 	std::size_t sideLen_ = 1;
-	mutable std::vector<LazyComputationType> lazyComputations_;
+	mutable std::vector<LazyComputation> lazyComputations_;
 
 private:
 	std::stack<Color> colors_;

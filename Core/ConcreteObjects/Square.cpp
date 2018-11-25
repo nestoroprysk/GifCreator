@@ -103,7 +103,7 @@ std::size_t Square::findCenteredTopLeft(std::size_t dimentionLen) const
 	return (midDimension > halfVal) ? midDimension - halfVal : 0;
 }
 
-void Square::addComputation(LazyComputationType&& c) const
+void Square::addComputation(LazyComputation&& c) const
 {
 	lazyComputations_.push_back(std::move(c));
 }
