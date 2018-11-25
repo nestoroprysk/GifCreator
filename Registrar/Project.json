@@ -60,6 +60,18 @@
 					"Method": "moveDown",
 					"From": 0,
 					"Till": 50
+				},
+				{
+					"Class": "IZoomable",
+					"Method": "zoomIn",
+					"From": 0,
+					"Till": 25
+				},
+				{
+					"Class": "IZoomable",
+					"Method": "zoomOut",
+					"From": 25,
+					"Till": 50
 				}
 			]
 		}

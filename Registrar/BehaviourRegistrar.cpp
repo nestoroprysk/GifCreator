@@ -23,14 +23,16 @@ auto BehaviourRegistrar::makeBehaviour(const QJsonValue& o) -> Type::BehaviourUP
 namespace
 {
 	using IPositionableRegistrar = BehaviourClassRegistrar<IPositionable>;
-	using IMoveableRegistrar = BehaviourClassRegistrar<IMovable>;
+	using IMovableRegistrar = BehaviourClassRegistrar<IMovable>;
+	using IZoomableRegistrar = BehaviourClassRegistrar<IZoomable>;
 	using IColorableRegistrar = BehaviourClassRegistrar<IColorable>;
 }
 
 BehaviourRegistrar::BehaviourRegistrar()
 {
 	m_.insert({Value::BehaviourClassType::IPositionable, std::make_unique<IPositionableRegistrar>()});
-	m_.insert({Value::BehaviourClassType::IMovable, std::make_unique<IMoveableRegistrar>()});
+	m_.insert({Value::BehaviourClassType::IMovable, std::make_unique<IMovableRegistrar>()});
+	m_.insert({Value::BehaviourClassType::IZoomable, std::make_unique<IZoomableRegistrar>()});
 	m_.insert({Value::BehaviourClassType::IColorable, std::make_unique<IColorableRegistrar>()});
 }
 

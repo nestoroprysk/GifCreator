@@ -12,6 +12,7 @@ namespace Value
 	{
 		static constexpr auto IPositionable = "IPositionable";
 		static constexpr auto IMovable = "IMovable";
+		static constexpr auto IZoomable = "IZoomable";
 		static constexpr auto IColorable = "IColorable";
 	}
 	namespace IPositionableMethod
@@ -24,6 +25,11 @@ namespace Value
 		static constexpr auto moveDown = "moveDown";
 		static constexpr auto moveLeft = "moveLeft";
 		static constexpr auto moveRight = "moveRight";
+	}
+	namespace IZoomableMethod
+	{
+		static constexpr auto zoomIn = "zoomIn";
+		static constexpr auto zoomOut = "zoomOut";
 	}
 	namespace IColorableMethod
 	{
