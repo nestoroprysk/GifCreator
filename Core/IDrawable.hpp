@@ -5,6 +5,6 @@
 class IDrawable
 {
 public:
-	virtual void draw(Type::ColorMatrix&, std::size_t imageCount) const = 0;
+	virtual void draw(Type::ColorMatrix&) const = 0;
 	virtual ~IDrawable() {}
 };

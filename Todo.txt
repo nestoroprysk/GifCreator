@@ -7,7 +7,7 @@
 9. enable mirroring ===DONE===
 10. set behaviour at ===DONE===
 14. gotocenter should belong to IPositionable ===DONE===
-3. Get rid of imageCount in square ===UP NEXT===
+3. Get rid of imageCount in square ===DONE===
 11. use matrix of transformation
 13. qt app for creation with real time vision
 15. rename a few functions

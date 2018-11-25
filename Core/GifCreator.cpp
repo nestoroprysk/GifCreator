@@ -45,7 +45,7 @@ void GifCreator::makeFrame(GifWriterHandle& gwh)
 void GifCreator::updateImage()
 {
 	for (const auto& o : objectStorage_)
-		(o.second)->draw(pixelMapper_, nbFrames_);
+		(o.second)->draw(pixelMapper_);
 	for (std::size_t i = 0; i < height_; ++i)
 		for (std::size_t j = 0; j < width_; ++j)
 			image_->fillNextPixel(pixelMapper_[i][j]);

@@ -9,10 +9,10 @@ auto Square::getName() const -> const std::string&
 	return name_;
 }
 
-void Square::draw(Type::ColorMatrix& m, std::size_t imageCount) const
+void Square::draw(Type::ColorMatrix& m) const
 {
 	for (const auto& computation : lazyComputations_)
-		computation(m, imageCount);
+		computation(m);
 	lazyComputations_.clear();
 	for (std::size_t i = 0; i < sideLen_; ++i)
 		for (std::size_t j = 0; j < sideLen_; ++j)
@@ -22,7 +22,7 @@ void Square::draw(Type::ColorMatrix& m, std::size_t imageCount) const
 
 void Square::_gotoCenter()
 {
-	addComputation([this](Type::ColorMatrix& m, std::size_t){
+	addComputation([this](Type::ColorMatrix& m){
 		topLeft_.x = findCenteredTopLeft(m[0].size());
 		topLeft_.y = findCenteredTopLeft(m.size());
 	});
@@ -30,35 +30,35 @@ void Square::_gotoCenter()
 
 void Square::_moveUp()
 {
-	addComputation([this](Type::ColorMatrix&, std::size_t){
+	addComputation([this](Type::ColorMatrix&){
 		--topLeft_.y;
 	});
 }
 
 void Square::_moveDown()
 {
-	addComputation([this](Type::ColorMatrix&, std::size_t){
+	addComputation([this](Type::ColorMatrix&){
 		++topLeft_.y;
 	});
 }
 
 void Square::_moveLeft()
 {
-	addComputation([this](Type::ColorMatrix&, std::size_t){
+	addComputation([this](Type::ColorMatrix&){
 		--topLeft_.x;
 	});
 }
 
 void Square::_moveRight()
 {
-	addComputation([this](Type::ColorMatrix&, std::size_t){
+	addComputation([this](Type::ColorMatrix&){
 		++topLeft_.x;
 	});
 }
 
 void Square::_zoomIn()
 {
-	const auto c = [this](Type::ColorMatrix&, std::size_t){
+	const auto c = [this](Type::ColorMatrix&){
 		sideLen_ += 2;
 		topLeft_.x -= 1;
 		topLeft_.y -= 1;
@@ -68,7 +68,7 @@ void Square::_zoomIn()
 
 void Square::_zoomOut()
 {
-	const auto c = [this](Type::ColorMatrix&, std::size_t){
+	const auto c = [this](Type::ColorMatrix&){
 		sideLen_ -= (sideLen_ < 3) ? 0 : 2;
 		topLeft_.x += 1;
 		topLeft_.y += 1;
@@ -79,7 +79,7 @@ void Square::_zoomOut()
 void Square::_setColor(Color const& color)
 {
 	colors_.push(color);
-	const auto c = [this, color](Type::ColorMatrix&, std::size_t){
+	const auto c = [this, color](Type::ColorMatrix&){
 		topLeft_.c = color;
 	};
 	lazyComputations_.push_back(c);
@@ -90,7 +90,7 @@ void Square::_unsetColor(Color const&)
 	if (!colors_.empty()) colors_.pop();
 	if (colors_.empty()) throw std::logic_error("Invalid unset color in empty stack.");
 	const auto color = colors_.top();
-	const auto c = [this, color](Type::ColorMatrix&, std::size_t){
+	const auto c = [this, color](Type::ColorMatrix&){
 		topLeft_.c = color;
 	};
 	lazyComputations_.push_back(c);

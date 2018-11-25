@@ -18,7 +18,7 @@ public:
 
 public:
 	auto getName() const -> const std::string& override;
-	void draw(Type::ColorMatrix&, std::size_t imageCount) const override;
+	void draw(Type::ColorMatrix&) const override;
 	void _gotoCenter() override;
 	void _moveUp() override;
 	void _moveDown() override;
@@ -30,7 +30,7 @@ public:
 	void _unsetColor(Color const&) override;
 
 private:
-	using LazyComputation = std::function<void(Type::ColorMatrix&, std::size_t imageCount)>;
+	using LazyComputation = std::function<void(Type::ColorMatrix&)>;
 
 private:
 	std::size_t findCenteredTopLeft(std::size_t dimentionLen) const;
