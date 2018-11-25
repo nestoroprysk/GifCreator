@@ -8,9 +8,20 @@
 10. set behaviour at ===DONE===
 14. gotocenter should belong to IPositionable ===DONE===
 3. Get rid of imageCount in square ===DONE===
+15. rename a few functions ===DONE===
+20. Undo color ===DONE===
+22. make code less repetitive ===DONE===
+24. register behaviour ===DONE===
+25. apply behaviour name - name ===DONE===
+33. BehaviourClassRegistrar should not be named 'factory' ===DONE===
+
+Gui-related:
+21. Make order of buttons more logical
+23. enable user to choose json only
+
+Ideas:
 11. use matrix of transformation
-13. qt app for creation with real time vision
-15. rename a few functions
+13. qt app for creation with real time vision ===ACCEPTED===
 16. generalising primitives to something and
 	enabling modifications on parts
 	(e.g. a man of sticks must be able to move his hand,
@@ -21,18 +32,10 @@
 	group of objects is needed)
 18. I want a neat way to create a static cloud of points
 19. I want a neat way to create an inside-changing cloud of points
-20. Undo color is not functional
-21. Make order of buttons more logical
-22. make code less repetitive
-23. enable user to choose json only
-24. register behaviour
-25. apply behaviour name - name
-26. I must catch exceptions locally
+26. I must catch exceptions locally ===DENIED===
 27. Unregister behaviour
 28. Unregister object
 29. Modifying behaviour via gif creator
 30. registering an object with the same name should
 	constitute overriding the previous
-31. json error handling
-32. should IPositionableMapper::GotoCenter have () or should it be elsewhere?
-33. BehaviourClassRegistrar is not a factory
+31. json error handling ===TENTATIVE===
