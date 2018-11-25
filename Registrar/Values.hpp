@@ -48,4 +48,12 @@ namespace Value
 			}
 		}
 	}
+	namespace Application
+	{
+		namespace Mode
+		{
+			static constexpr auto doMode = "Do";
+			static constexpr auto undoMode = "Undo";
+		}
+	}
 }

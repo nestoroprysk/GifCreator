@@ -36,6 +36,7 @@ namespace Key
 	}
 	namespace Application
 	{
+		static constexpr auto mode = "Mode";
 		static constexpr auto objectName = "ObjectName";
 		static constexpr auto behaviourName = "BehaviourName";
 		static constexpr auto at = "At";

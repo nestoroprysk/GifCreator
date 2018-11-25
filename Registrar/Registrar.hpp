@@ -4,12 +4,13 @@
 #include <Core/Type.hpp>
 #include <QJsonObject>
 
+class GifCreator;
 class Behaviour;
 
 class Registrar
 {
 public:
-	using ObjectBehaviour = std::pair<std::string, std::string>;
+	using Applier = std::function<void(GifCreator&)>;
 
 public:
 	struct GifParameters{
@@ -27,7 +28,10 @@ public:
 	auto registerGifParameters() const -> GifParameters;
 	auto registerObjects() const -> std::vector<Type::INameableUP>;
 	auto registerBehaviours() const -> std::vector<Type::BehaviourUP>;
-	auto registerApplications() const -> std::vector<ObjectBehaviour>;
+	auto registerApplications() const -> std::vector<Applier>;
+
+private:
+	auto registerApplication(const QJsonValue&) const -> Applier;
 
 private:
 	QJsonObject readFile() const;

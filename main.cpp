@@ -16,11 +16,12 @@ static int run(int argc, char **argv);
 
 int main(int argc, char **argv)
 {
-	testDecode();
-	{
-		std::thread t(createSampleGif);
-		t.detach();
-	}
+	std::thread t0(testDecode);
+	std::thread t1(createSampleGif);
+
+	t0.join();
+	t1.join();
+
 	return run(argc, argv);
 }
 
@@ -28,16 +29,18 @@ static void testDecode()
 {
 	Registrar d;
 	const auto gp = d.registerGifParameters();
-	std::cerr << "Gif parameters (" << gp.width << ',' << gp.height <<
-		',' << gp.nbFrames << ',' << gp.delay << ')' << std::endl;
-	const auto os = d.registerObjects();
-	std::cerr << "Objects:" << std::endl;
-	for (const auto& o : os)
-		std::cerr << '(' << o->getName() << ')' << std::endl;
-	const auto bs = d.registerBehaviours();
-	for (const auto& b : bs)
-		std::cerr << '<' << b->getName() << '>' << std::endl;
+	GifCreator gc1(gp.width, gp.height, gp.nbFrames, gp.delay);
+	auto os = d.registerObjects();
+	for (auto& o : os)
+		gc1.registerObject(std::move(o));
+	auto bs = d.registerBehaviours();
+	for (auto& b : bs)
+		gc1.registerBehaviour(std::move(b));
 	const auto as = d.registerApplications();
+	for (const auto& a : as)
+		a(gc1);
+	const auto testDecodeFileName = "testDecode.gif";
+	gc1.createGif(testDecodeFileName);
 }
 
 static void createSampleGif()

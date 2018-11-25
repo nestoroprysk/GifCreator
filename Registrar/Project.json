@@ -78,14 +78,22 @@
 	],
 	"Applications": [
 		{
+			"Mode": "Do",
 			"ObjectName": "SampleSquare",
 			"BehaviourName": "Initial",
 			"At": 0
 		},
 		{
+			"Mode": "Do",
 			"ObjectName": "SampleSquare",
 			"BehaviourName": "Movement",
 			"At": 1
+		},
+		{
+			"Mode": "Undo",
+			"ObjectName": "SampleSquare",
+			"BehaviourName": "Movement",
+			"At": 25
 		}
 	]
 }

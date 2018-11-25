@@ -1,13 +1,14 @@
 #include <ios>
 #include <QFile>
-#include <QDebug>
 #include <QJsonDocument>
 #include <QJsonArray>
 
+#include <Core/GifCreator.hpp>
 #include <Core/INameable.hpp>
 #include <Core/Behaviour.hpp>
 
 #include "Keys.hpp"
+#include "Values.hpp"
 #include "ObjectRegistrar.hpp"
 #include "BehaviourRegistrar.hpp"
 #include "Registrar.hpp"
@@ -50,9 +51,26 @@ auto Registrar::registerBehaviours() const -> std::vector<Type::BehaviourUP>
 	return result;
 }
 
-auto Registrar::registerApplications() const -> std::vector<ObjectBehaviour>
+auto Registrar::registerApplications() const -> std::vector<Applier>
 {
-	return {};
+	std::vector<Applier> result;
+	const auto as = content_[Key::General::applicationList].toArray();
+	for (const auto& a : as)
+		result.push_back(registerApplication(a));
+	return result;
+}
+
+auto Registrar::registerApplication(const QJsonValue& a) const -> Applier
+{
+	const auto mode = a[Key::Application::mode].toString().toStdString();
+	const auto objectName = a[Key::Application::objectName].toString().toStdString();
+	const auto behaviourName = a[Key::Application::behaviourName].toString().toStdString();
+	const auto at = a[Key::Application::at].toInt();
+	return [mode, objectName, behaviourName, at](GifCreator& gc){
+		mode == Value::Application::Mode::doMode ?
+		gc.setDoBehaviourForAt(behaviourName, objectName, at) :
+		gc.setUndoBehaviourForAt(behaviourName, objectName, at);
+	};
 }
 
 QJsonObject Registrar::readFile() const
