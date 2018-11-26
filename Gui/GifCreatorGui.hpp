@@ -1,65 +1,40 @@
 #pragma once
 
-#include <QWidget>
+#include <QMainWindow>
 
-class QCheckBox;
-class QGridLayout;
-class QHBoxLayout;
-class QLabel;
+class QWidget;
 class QMovie;
-class QSlider;
-class QSpinBox;
-class QToolButton;
-class QVBoxLayout;
+class QLabel;
+class QDockWidget;
+class QPushButton;
 
-class GifCreatorGui : public QWidget
+class GifCreatorGui : public QMainWindow
 {
 	Q_OBJECT
 
 public:
-	GifCreatorGui(QWidget* parent = 0);
-
-public:
-	void saveProject();
-	void openProject(const QString& fileName);
-	void closeProject();
-
-private slots:
-	void create();
-	void open();
-	void close();
-	void save();
-	void goToFrame(int frame);
-	void fitToWindow();
-	void updateFitToWindow();
-	void updateFrameSlider();
-	void updateSpeedSlider();
-	void updateButtons();
+	GifCreatorGui(QWidget* parent = nullptr);
 
 private:
-	void createControls();
+	void initWindow();
+
+private:
+	void createCentralWidget();
+	QMovie* movie_ = nullptr;
+	QLabel* movieLabel_ = nullptr;
+
+private:
 	void createButtons();
+	QPushButton* openProject_ = nullptr;
+	QPushButton* play_ = nullptr;
 
 private:
-	QString currentMovieDirectory;
-	QLabel* movieLabel = nullptr;
-	QMovie* movie = nullptr;
-	QToolButton* applyButton = nullptr;
-	QToolButton* createButton = nullptr;
-	QToolButton* openButton = nullptr;
-	QToolButton* closeButton = nullptr;
-	QToolButton* playButton = nullptr;
-	QToolButton* saveButton = nullptr;
-	QToolButton* pauseButton = nullptr;
-	QToolButton* stopButton = nullptr;
-	QCheckBox* fitCheckBox = nullptr;
-	QSlider* frameSlider = nullptr;
-	QSpinBox* speedSpinBox = nullptr;
-	QLabel* frameLabel = nullptr;
-	QLabel* speedLabel = nullptr;
+	void createLowerDock();
+	QDockWidget* lowerDock_ = nullptr;
 
 private:
-	QGridLayout* controlsLayout = nullptr;
-	QHBoxLayout* buttonsLayout = nullptr;
-	QVBoxLayout* mainLayout = nullptr;
+	void openProject();
+
+private:
+	void deleteBoarder(QDockWidget*);
 };
