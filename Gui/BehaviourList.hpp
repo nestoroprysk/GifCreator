@@ -4,10 +4,10 @@
 
 class QListView;
 
-class ObjectList : public AList
+class BehaviourList : public AList
 {
 	Q_OBJECT
 
 public:
-	ObjectList();
+	BehaviourList();
 };

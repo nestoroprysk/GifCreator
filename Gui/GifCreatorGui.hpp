@@ -7,6 +7,7 @@ class QMovie;
 class QLabel;
 class QDockWidget;
 class QPushButton;
+class AList;
 
 class GifCreatorGui : public QMainWindow
 {
@@ -14,6 +15,7 @@ class GifCreatorGui : public QMainWindow
 
 public:
 	GifCreatorGui(QWidget* parent = nullptr);
+	~GifCreatorGui();
 
 private:
 	void initWindow();
@@ -33,8 +35,24 @@ private:
 	QDockWidget* lowerDock_ = nullptr;
 
 private:
+	void createLeftDock();
+	QDockWidget* leftDock_ = nullptr;
+
+private:
+	void createLeftList();
+	AList* leftList_ = nullptr;
+
+private:
+	void createRightDock();
+	QDockWidget* rightDock_ = nullptr;
+
+private:
+	void createRightList();
+	AList* rightList_ = nullptr;
+
+private:
 	void openProject();
 
 private:
-	void deleteBoarder(QDockWidget*);
+	static void deleteBoarder(QDockWidget*);
 };
