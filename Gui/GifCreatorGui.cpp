@@ -19,13 +19,13 @@ GifCreatorGui::GifCreatorGui(QWidget* parent)
 
 void GifCreatorGui::initWindow()
 {
-	setWindowTitle(tr("Gif Creator"));
+	setWindowTitle("Gif Creator");
 	resize(800, 600);
 }
 
 void GifCreatorGui::createCentralWidget()
 {
-	movieLabel_ = new QLabel(tr("No project selected"), this);
+	movieLabel_ = new QLabel("No project selected", this);
 	movieLabel_->setAlignment(Qt::AlignCenter);
 	movieLabel_->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
 	movieLabel_->setBackgroundRole(QPalette::Dark);
@@ -93,7 +93,7 @@ void GifCreatorGui::createRightList()
 
 void GifCreatorGui::openProject()
 {
-	auto fileName = QFileDialog::getOpenFileName(this, tr("Open a projevt"));
+	auto fileName = QFileDialog::getOpenFileName(this, "Open a project");
 	movie_->stop();
 	movieLabel_->setMovie(movie_);
 	movie_->setFileName(fileName);
