@@ -122,5 +122,5 @@ template <typename T, typename F, typename ... Args>
 void Behaviour::changeObjectSpecifically(T& o, F f, std::size_t nbCalls, Args... args)
 {
 	for (std::size_t i = 0; i < nbCalls; ++i)
-			(o.*f.get())(args...);
+		std::invoke(f.get(), o, args...);
 }
