@@ -18,7 +18,7 @@ add_executable(GifCreator main.cpp)
 
 target_include_directories(GifCreator PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 
-target_link_libraries(GifCreator Core Gui Registrar)
+target_link_libraries(GifCreator Core Registrar)
 
 #qt configurations
 
@@ -43,19 +43,6 @@ file(GLOB CoreSources
 add_library(Core SHARED ${CoreSources})
 
 target_include_directories(Core PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
-
-#gui configurations
-
-file(GLOB GuiSources
-        ${CMAKE_CURRENT_SOURCE_DIR}/Gui/*.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/Gui/*.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/Gui/*.hpp)
-
-add_library(Gui SHARED ${GuiSources})
-
-target_link_libraries(Gui Qt5::Widgets)
-
-target_include_directories(Gui PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 
 #Registrar configurations
 

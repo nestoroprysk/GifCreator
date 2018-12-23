@@ -6,22 +6,18 @@
 #include <Core/ConcreteObjects/Square.hpp>
 #include <Core/Behaviour.hpp>
 #include <Core/Type.hpp>
-#include <Gui/GifCreatorGui.hpp>
 #include <Registrar/Registrar.hpp>
 
 static void testDecode();
 static void createSampleGif();
-static int run(int argc, char **argv);
 
-int main(int argc, char **argv)
+int main()
 {
 	std::thread t0(testDecode);
 	std::thread t1(createSampleGif);
 
 	t0.join();
 	t1.join();
-
-	return run(argc, argv);
 }
 
 static void testDecode()
@@ -124,12 +120,4 @@ static void createSampleGif()
 	}
 
 	gc.createGif();
-}
-
-static int run(int argc, char **argv)
-{
-	QApplication app(argc, argv);
-	GifCreatorGui player;
-	player.showFullScreen();
-	return app.exec();
 }
